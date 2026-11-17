@@ -11,4 +11,4 @@ Liczby z Rejestru Restauracji i Fabryki (jak w.dysza.app), szczegóły z DYSZY �
 z dostępem do modułu „utargometr” (manager.dysza.app) i Architekt. Strona nie zawiera danych ani imion i adresów osób;
 wszystko przychodzi z funkcji bazy `utargometr_*`, które same pilnują dostępu.
 
-Wersja 1.0 · 2026-11-18 00:27 · ba27893
+Wersja 1.0 · 2026-11-18 00:51 · 0f59729

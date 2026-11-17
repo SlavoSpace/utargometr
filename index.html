@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Utargometr">
 <meta name="robots" content="noindex, nofollow">
-<meta name="utargometr-wersja" content="1.0 · 2026-11-18 00:27 · ba27893">
+<meta name="utargometr-wersja" content="1.0 · 2026-11-18 00:51 · 0f59729">
 <title>Utargometr</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -1752,6 +1752,11 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
         S.nowe = {}; d.transakcje.forEach(function (t) { if (!bylo[t.id]) S.nowe[t.id] = 1; });
       } else S.nowe = {};
       S.dane = d; S.wynik = licz(d.transakcje || []); S.laduje = false; S.blad = ''; S.wczytano = Date.now();
+      // świeżość Rejestru: uwaga dopiero, gdy kłopot trwa (dwa pobrania z rzędu, ok. minuty) — jedno potknięcie DYSZY
+      // (np. zerwane połączenie, które dysza-rejestr ponawia w następnej minucie) jej nie zapala
+      var stn = d.stan || {};
+      if (stn.ok === false) S.zleRejestr = (S.zleRejestr || 0) + 1;
+      else { S.zleRejestr = 0; if (!d.zamkniety && stn.ostatnio) S.okRejestr = stn.ostatnio; }
       if (S.dzien === S.dzis) delete S.kal[S.dzis.slice(0, 7)];   // miesiąc w kalendarzu przeliczy się przy otwarciu
       if (cicho) { renderGora(); renderTab(); renderOkno(); } else renderStrona();
       if (Object.keys(S.nowe).length) setTimeout(function () { S.nowe = {}; }, 2600);
@@ -1769,6 +1774,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     if (S.od && k < S.od) k = S.od;
     if (S.dzis && k > S.dzis) k = S.dzis;
     S.dzien = k; S.auto = !!auto; S.filtr.h = null; S.sort = k === S.dzis ? 'nowe' : 'stare';
+    S.zleRejestr = 0; S.okRejestr = null;
     wczytaj(false);
   }
   function powitanie() {
@@ -1835,7 +1841,14 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       '<span class="kr"></span><span class="ut-stan-l">' + w.n + ' ' + odm(w.n, 'transakcja', 'transakcje', 'transakcji') +
       (w.n ? ' · średnio ' + zl(w.razem / w.n) + ' zł' : '') + '</span>' +
       (d.zamkniety ? '<button class="ut-wroc" data-a="dzis">Dziś ' + ik('prawo', 'mala') + '</button>' : '') + '</div>';
-    if (st.ok === false) h += '<div class="ut-alarm info uw" role="status">' + ik('uwaga') + '<span>' + T('Rejestr nie dostał nowych danych z DYSZY od ' + (st.ostatnio || '—') + (st.tekst ? ' (' + st.tekst + ')' : '') + ' — liczby mogą być niepełne.') + '</span></div>';
+    if (st.ok === false && (S.zleRejestr || 0) >= 2) {
+      // bez technicznych szczegółów na ekranie (zostają w podpowiedzi), każdy powód raz
+      var pow = String(st.tekst || '').split(' · ').filter(function (x, i, a) { return x && a.indexOf(x) === i; }).join(' · ');
+      var kiedy = S.okRejestr || st.ostatnio || '';
+      h += '<div class="ut-alarm info uw" role="status"' + (pow ? ' title="' + esc(pow) + '"' : '') + '>' + ik('uwaga') + '<span>' + T(pow
+        ? 'DYSZA chwilowo nie odpowiada — ZDZISŁAW ponawia co minutę.' + (kiedy ? ' Ostatnie dane: ' + kiedy + '.' : '') + ' Do tego czasu liczby mogą być niepełne.'
+        : 'Rejestr nie dostał nowych danych z DYSZY' + (kiedy ? ' od ' + kiedy : '') + ' — liczby mogą być niepełne.') + '</span></div>';
+    }
     else if (st.szczegoly && st.szczegoly.ok === false && !d.zamkniety) h += '<div class="ut-alarm info uw" role="status">' + ik('uwaga') + '<span>' + T('Szczegóły z DYSZY nie dochodzą' + (st.szczegoly.ostatnio ? ' od ' + st.szczegoly.ostatnio : '') + ' — kwoty są pełne, opisy i podział na i / t mogą być niepełne.') + '</span></div>';
     if (st.bez_szczegolow > 0) h += '<div class="ut-alarm info" role="status">' + ik('uwaga') + '<span>' + T(st.bez_szczegolow + ' ' + odm(st.bez_szczegolow, 'transakcja czeka', 'transakcje czekają', 'transakcji czeka') + ' na szczegóły z DYSZY — do tego czasu liczę je jako t.') + '</span></div>';
     h += '</section>';
