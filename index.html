@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Utargometr">
 <meta name="robots" content="noindex, nofollow">
-<meta name="utargometr-wersja" content="1.2 · 2026-11-18 01:34 · 4964195">
+<meta name="utargometr-wersja" content="1.3 · 2026-11-18 08:26 · 2e47bd8">
 <title>Utargometr</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -545,7 +545,7 @@ table.dni{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
 .ut-tr-g{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .ut-tr-g h2{font-size:20px;font-weight:800}
 .ut-tr-g .pod{font-size:13.5px}
-.ut-ster{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-areas:"m k . p" "q q q kop";gap:10px 12px;align-items:center;margin-bottom:12px}
+.ut-ster{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-areas:"m k h p" "q q q kop";gap:10px 12px;align-items:center;margin-bottom:12px}
 .ut-ster > .seg{min-height:var(--wys);align-items:center}
 .ut-ster > .seg button{min-height:36px}
 .ut-ster > .m{grid-area:m}
@@ -556,6 +556,32 @@ table.dni{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
 .ut-ster select{height:var(--wys);min-width:210px;border-radius:12px;border:1px solid var(--ramka2);background-color:var(--pow);padding:0 36px 0 14px;font-size:14.5px;font-weight:700;appearance:none;-webkit-appearance:none;
   background-image:linear-gradient(45deg,transparent 50%,var(--tekst2) 50%),linear-gradient(135deg,var(--tekst2) 50%,transparent 50%);background-position:calc(100% - 20px) 19px,calc(100% - 14px) 19px;background-size:6px 6px;background-repeat:no-repeat}
 .ut-ster .kop{min-height:var(--wys)}
+/* Hitometr: przycisk za kanałami (jak na zrzucie z 18.11), okno w dniu, stałe okno pod „Dni” w miesiącu */
+.ut-ster > .hit{grid-area:h;justify-self:start;min-height:var(--wys)}
+.ut-hit-ster{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-bottom:12px}
+.ut-hit-ster .seg button{min-height:36px}
+.ut-hit-ster .kop{min-height:var(--wys)}
+.ut-hit{border:1px solid var(--ramka);background:var(--pow);border-radius:16px;overflow:hidden}
+.ut-hit.m{max-height:min(72vh,820px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.ut-hit-w{display:grid;grid-template-columns:30px minmax(0,1fr) 56px 64px 104px;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--linia);font-size:14px;font-variant-numeric:tabular-nums}
+.ut-hit-w:last-child{border-bottom:0}
+.ut-hit-w.nag{position:sticky;top:0;z-index:1;background:var(--pow2);border-bottom:1px solid var(--ramka);padding:10px 14px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tekst3)}
+.ut-hit-w > :nth-child(n+3){text-align:right;white-space:nowrap}
+.ut-hit-w .nr{text-align:right;color:var(--tekst3);font-weight:700}
+.ut-hit-w .nz{min-width:0}
+.ut-hit-w .nz > span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.ut-hit-w .pas{display:flex;height:6px;margin-top:6px;border-radius:3px;background:var(--linia);overflow:hidden}
+.ut-hit-w .pas i{display:block;height:100%}
+.ut-hit-w .pas .f{background:var(--F)}
+.ut-hit-w .pas .r{background:var(--R)}
+.ut-hit-w > b{font-size:15px}
+.ut-hit-w .u{color:var(--tekst2)}
+.ut-hit-info{font-size:13px;color:var(--tekst3);margin:10px 2px 0}
+.ut-hit-pon{text-align:center;margin-top:12px}
+.ut-hit-kiedy{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;font-size:14px;color:var(--tekst2);margin:0}
+.ut-hit-kiedy b{color:var(--tekst)}
+.okno.ut-hit-o{width:min(760px,100%)}
+.ut-hit-o .okno-g h2 .ikona{width:22px;height:22px}
 .ut-chip{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 6px 0 11px;border-radius:999px;border:1px solid var(--mocRamka);background:var(--mocTlo);color:var(--mocTekst);font-size:13px;font-weight:800}
 .ut-chip .ikona{width:15px;height:15px}
 
@@ -649,7 +675,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
 /* iPad w pionie */
 @media (max-width:1060px){
   .ut-plat{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ut-ster{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"m . k" "p p kop" "q q q"}
+  .ut-ster{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"m h k" "p p kop" "q q q"}
+  .ut-ster > .hit{justify-self:center}
   .ut-ster > .pok{justify-self:stretch}
   .ut-ster select{width:100%}
   .tab .nv{display:none}
@@ -693,7 +720,17 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   .ut-slupki,.ut-godz{gap:4px}
   .ut-s{padding:0 1px}
   .ut-godz{font-size:10.5px}
-  .ut-ster{grid-template-columns:minmax(0,1fr);grid-template-areas:"m" "k" "p" "q" "kop"}
+  .ut-ster{grid-template-columns:minmax(0,1fr);grid-template-areas:"m" "k" "h" "p" "q" "kop"}
+  .ut-ster > .hit{justify-self:stretch}
+  .ut-hit-ster .seg{flex:1 1 auto;display:flex}
+  .ut-hit-ster .seg button{flex:1 1 auto}
+  .ut-hit-ster .kop{width:100%}
+  .ut-hit-ster .ut-leg{width:100%;justify-content:center}
+  .ut-hit.m{max-height:none;overflow:visible}
+  .ut-hit-w{grid-template-columns:24px minmax(0,1fr) 40px 54px;gap:8px;padding:9px 10px;font-size:13.5px}
+  .ut-hit-w.nag{padding:10px}
+  .ut-hit-w .kw{display:none}
+  .ut-hit-w .nz > span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
   .ut-ster > .seg{display:flex;width:100%}
   .ut-ster > .seg button{flex:1 1 auto}
   .ut-ster .kop{width:100%}
@@ -732,7 +769,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
 @media (prefers-reduced-motion:reduce){.ut-zywo::before,.ut-s.teraz i:first-child,.tab tr.nowy td{animation:none}}
 
 /* logo Utargometru: przy nazwie w oknie logowania (ZDZISŁAW zostaje) i w nagłówku — jak w Kosztometrze */
-.dw-gora>div:first-child{position:relative;padding-left:50px}.dw-gora>div:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:34px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjI2IDcgMTA4IDI5MCI+PHBhdGggZD0iTTQyIDI2N0gyOE0xMTggMjY3SDEzMk00MiAyNDNIMzRNMTE4IDI0M0gxMjZNNDIgMjE5SDI4TTExOCAyMTlIMTMyTTQyIDE5NUgzNE0xMTggMTk1SDEyNk00MiAxNzFIMjhNMTE4IDE3MUgxMzJNNDIgMTQ3SDM0TTExOCAxNDdIMTI2TTQyIDEyM0gyOE0xMTggMTIzSDEzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE5QTk1IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik01MCA4MFYyNjRBMzAgMzAgMCAwIDAgMTEwIDI2NFY4MFoiIGZpbGw9IiNEOURGREQiIHN0cm9rZT0iIzBFMTMxMiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTYyIDgwVjI2NEExOCAxOCAwIDAgMCA5OCAyNjRWODBaIiBmaWxsPSIjMUIyMzIxIi8+PHJlY3QgeD0iNjgiIHk9IjI1OCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzJGOUQ2MiIvPjxyZWN0IHg9IjY4IiB5PSIyMzQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMzREI1NzEiLz48cmVjdCB4PSI2OCIgeT0iMjEwIiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjNEZDOTgxIi8+PHJlY3QgeD0iNjgiIHk9IjE4NiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzYzRDI5NiIvPjxyZWN0IHg9IjY4IiB5PSIxNjIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM4RkUzQjQiLz48cmVjdCB4PSI2OSIgeT0iMTM5IiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzRTRENDkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY5IiB5PSIxMTUiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxNiIgcng9IjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNFNEQ0OSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iODAiIGN5PSI1MiIgcj0iNDIiIGZpbGw9IiNFNkI4NDciIHN0cm9rZT0iIzBFMTMxMiIgc3Ryb2tlLXdpZHRoPSI2Ii8+PGNpcmNsZSBjeD0iODAiIGN5PSI1MiIgcj0iMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I4ODkyQSIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHBhdGggZD0iTTQ4LjggMzRBMzYgMzYgMCAwIDEgNjQuOCAxOS40IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkY0Q0YiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTY2IDQxSDc3TDY2IDYzSDc3TTg0LjUgNDFWNjNIOTRNODEgNTZMODguNSA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMEUxMzEyIiBzdHJva2Utd2lkdGg9IjQuNSIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIvPjwvc3ZnPg==") left center/contain no-repeat}.nag-znak{flex:0 0 auto;width:15px;height:44px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjM1IDcgOTAgMjkwIj48cGF0aCBkPSJNNTAgODBWMjY0QTMwIDMwIDAgMCAwIDExMCAyNjRWODBaIiBmaWxsPSIjRDlERkREIiBzdHJva2U9IiMwRTEzMTIiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik02MiA4MFYyNjRBMTggMTggMCAwIDAgOTggMjY0VjgwWiIgZmlsbD0iIzFCMjMyMSIvPjxyZWN0IHg9IjY4IiB5PSIyNTgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyRjlENjIiLz48cmVjdCB4PSI2OCIgeT0iMjM0IiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjM0RCNTcxIi8+PHJlY3QgeD0iNjgiIHk9IjIxMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzRGQzk4MSIvPjxyZWN0IHg9IjY4IiB5PSIxODYiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM2M0QyOTYiLz48cmVjdCB4PSI2OCIgeT0iMTYyIiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjOEZFM0I0Ii8+PHJlY3QgeD0iNjkiIHk9IjEzOSIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM0U0RDQ5IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2OSIgeT0iMTE1IiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzRTRENDkiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iNTIiIHI9IjQyIiBmaWxsPSIjRTZCODQ3IiBzdHJva2U9IiMwRTEzMTIiIHN0cm9rZS13aWR0aD0iNiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iNTIiIHI9IjMxIiBmaWxsPSJub25lIiBzdHJva2U9IiNCODg5MkEiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik00OC44IDM0QTM2IDM2IDAgMCAxIDY0LjggMTkuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGNENGIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik02NiA0MUg3N0w2NiA2M0g3N004NC41IDQxVjYzSDk0TTgxIDU2TDg4LjUgNDkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzBFMTMxMiIgc3Ryb2tlLXdpZHRoPSI0LjUiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiLz48L3N2Zz4=") center/contain no-repeat}@media (max-width:600px){.dw-gora>div:first-child{padding-left:42px}.dw-gora>div:first-child::before{width:28px}.nag-znak{height:38px;width:13px}}
+.dw-gora>div:first-child{position:relative;padding-left:50px}.dw-gora>div:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:34px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjI2IDcgMTA4IDI5MCI+PHBhdGggZD0iTTQyIDI2N0gyOE0xMTggMjY3SDEzMk00MiAyNDNIMzRNMTE4IDI0M0gxMjZNNDIgMjE5SDI4TTExOCAyMTlIMTMyTTQyIDE5NUgzNE0xMTggMTk1SDEyNk00MiAxNzFIMjhNMTE4IDE3MUgxMzJNNDIgMTQ3SDM0TTExOCAxNDdIMTI2TTQyIDEyM0gyOE0xMTggMTIzSDEzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE5QTk1IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik01MCA4MFYyNjRBMzAgMzAgMCAwIDAgMTEwIDI2NFY4MFoiIGZpbGw9IiNEOURGREQiIHN0cm9rZT0iIzBFMTMxMiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTYyIDgwVjI2NEExOCAxOCAwIDAgMCA5OCAyNjRWODBaIiBmaWxsPSIjMUIyMzIxIi8+PHJlY3QgeD0iNjgiIHk9IjI1OCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzJGOUQ2MiIvPjxyZWN0IHg9IjY4IiB5PSIyMzQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMzREI1NzEiLz48cmVjdCB4PSI2OCIgeT0iMjEwIiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjNEZDOTgxIi8+PHJlY3QgeD0iNjgiIHk9IjE4NiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzYzRDI5NiIvPjxyZWN0IHg9IjY4IiB5PSIxNjIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM4RkUzQjQiLz48cmVjdCB4PSI2OSIgeT0iMTM5IiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzRTRENDkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY5IiB5PSIxMTUiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxNiIgcng9IjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNFNEQ0OSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iODAiIGN5PSI1MiIgcj0iNDIiIGZpbGw9IiNFNkI4NDciIHN0cm9rZT0iIzBFMTMxMiIgc3Ryb2tlLXdpZHRoPSI2Ii8+PGNpcmNsZSBjeD0iODAiIGN5PSI1MiIgcj0iMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I4ODkyQSIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHBhdGggZD0iTTQ4LjggMzRBMzYgMzYgMCAwIDEgNjQuOCAxOS40IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkY0Q0YiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+") left center/contain no-repeat}.nag-znak{flex:0 0 auto;width:15px;height:44px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjM1IDcgOTAgMjkwIj48cGF0aCBkPSJNNTAgODBWMjY0QTMwIDMwIDAgMCAwIDExMCAyNjRWODBaIiBmaWxsPSIjRDlERkREIiBzdHJva2U9IiMwRTEzMTIiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik02MiA4MFYyNjRBMTggMTggMCAwIDAgOTggMjY0VjgwWiIgZmlsbD0iIzFCMjMyMSIvPjxyZWN0IHg9IjY4IiB5PSIyNTgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyRjlENjIiLz48cmVjdCB4PSI2OCIgeT0iMjM0IiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjM0RCNTcxIi8+PHJlY3QgeD0iNjgiIHk9IjIxMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzRGQzk4MSIvPjxyZWN0IHg9IjY4IiB5PSIxODYiIHdpZHRoPSIyNCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM2M0QyOTYiLz48cmVjdCB4PSI2OCIgeT0iMTYyIiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjOEZFM0I0Ii8+PHJlY3QgeD0iNjkiIHk9IjEzOSIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM0U0RDQ5IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2OSIgeT0iMTE1IiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzRTRENDkiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iNTIiIHI9IjQyIiBmaWxsPSIjRTZCODQ3IiBzdHJva2U9IiMwRTEzMTIiIHN0cm9rZS13aWR0aD0iNiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iNTIiIHI9IjMxIiBmaWxsPSJub25lIiBzdHJva2U9IiNCODg5MkEiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik00OC44IDM0QTM2IDM2IDAgMCAxIDY0LjggMTkuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGNENGIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==") center/contain no-repeat}@media (max-width:600px){.dw-gora>div:first-child{padding-left:42px}.dw-gora>div:first-child::before{width:28px}.nag-znak{height:38px;width:13px}}
 </style>
 </head>
 <body>
@@ -1338,7 +1375,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     return { sesja: function () { return sesja; }, zaloguj: zaloguj, prosba: prosba, wyloguj: wyloguj, rpc: rpcStrony, pokaz: false };
   }
 
-  /* ───────────── pokaz: utargometr_start / _dzien / _miesiac w pamięci strony ─────────────
+  /* ───────────── pokaz: utargometr_start / _dzien / _miesiac / _hity w pamięci strony ─────────────
      Każdy dzień ma swoje ziarno — po odświeżeniu te same transakcje. Dziś widać tylko to, co już się wydarzyło
      (czas wpisu ≤ teraz), więc co minutę dochodzą nowe transakcje — jak na żywo. */
   function rng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -1557,6 +1594,28 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
         var zamkniety = m < t.dzien.slice(0, 7);
         return { miesiac: m, od: od(), dzis: t.dzien, zamkniety: zamkniety, dni: dni,
           stan: { ok: true, ostatnio: zamkniety ? null : t.hhmm, tekst: '', bez_szczegolow: 0, szczegoly: { ok: true, ostatnio: null, tekst: '' } } };
+      },
+      // Hitometr — jak utargometr_hity w bazie: sztuki pozycji transakcji w utargu; zestaw = nazwa z ZESTAWY albo LUNCH
+      utargometr_hity: function (a) {
+        wymagaj();
+        var t = teraz(), p = String(a.p_od || ''), k2 = String(a.p_do || ''), re = /^\d{4}-\d{2}-\d{2}$/;
+        if (!re.test(p) || !re.test(k2) || p > k2 || (Date.parse(k2) - Date.parse(p)) / 864e5 > 62 || k2 < od() || p > t.dzien) throw blad('ZLY_ZAKRES');
+        var zest = {}, mapa = {}, n = 0, bez = 0;
+        ZESTAWY.concat(LUNCH).forEach(function (z) { zest[z[0]] = 1; });
+        for (var k = p < od() ? od() : p; k <= k2 && k <= t.dzien; k = dodajDni(k, 1)) {
+          transakcje(k).forEach(function (x) {
+            if (x.stan !== 'ok') return;
+            n++;
+            if (!x.pozycje.length) { bez++; return; }
+            x.pozycje.forEach(function (q) {
+              var y = mapa[q[0]] || (mapa[q[0]] = [q[0], !!zest[q[0]], 0, 0, 0, 0]);
+              y[2] += q[1]; y[x.m === 'F' ? 3 : 4] += q[1]; y[5] += q[1] * q[2];
+            });
+          });
+        }
+        var l = Object.keys(mapa).map(function (q) { return mapa[q]; }).filter(function (y) { return y[2] > 0 && (y[1] || y[5] > 0); })
+          .sort(function (x, y) { return y[2] - x[2] || y[5] - x[5] || (x[0] < y[0] ? -1 : 1); });
+        return { od: p < od() ? od() : p, do: k2, transakcji: n, bez_szczegolow: bez, zestawow_w_spisie: Object.keys(zest).length, pozycje: l };
       }
     };
     return {
@@ -1612,7 +1671,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     etap: 'logowanie', ja: null, motyw: czytaj(KL.motyw, 'ciemny') === 'jasny' ? 'jasny' : 'ciemny', menu: false,
     dzis: null, od: null, dzien: null, auto: true, dane: null, wynik: null, laduje: false, blad: '', wczytano: 0,
     filtr: { m: '', k: '', p: '', q: '', h: null }, sort: 'nowe', okno: null, kal: {}, nowe: {},
-    widok: 'dzien', mies: null, daneM: null, wynikM: null, ladujeM: false, bladM: '', wczytanoM: 0
+    widok: 'dzien', mies: null, daneM: null, wynikM: null, ladujeM: false, bladM: '', wczytanoM: 0,
+    hitTryb: 'z', hitD: null, hitM: null, kalH: {}       // Hitometr: Zestawy / Wszystko, dane dnia (okno), miesiąca (sekcja), zamknięte miesiące
   };
 
   /* ───────────── pomocnicze ───────────── */
@@ -1635,6 +1695,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     var a = Math.abs(gr), z = Math.floor(a / 100), g = a % 100;
     return (gr < 0 ? '−' : '') + String(z).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ',' + String(g).padStart(2, '0');
   }
+  function ile(n) { return String(Math.round(n || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }   // sztuki: „1 351”
   function tys(gr) { return (Math.round(gr / 10000) / 10).toFixed(1).replace('.', ',') + '<span class="t"> tys.</span>'; }
   function tysMln(gr) { return gr >= 1e8 ? (Math.round(gr / 1e6) / 100).toFixed(2).replace('.', ',') + '<span class="t"> mln</span>' : tys(gr); }
   function proc(x, c) { return c ? (Math.round(x / c * 1000) / 10).toFixed(1).replace('.', ',') + '%' : '—'; }
@@ -1654,7 +1715,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     slonce: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     odswiez: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.01"/>',
-    strz: '<path d="M7 10l5 5 5-5"/>'
+    strz: '<path d="M7 10l5 5 5-5"/>',
+    hit: '<path d="M3.5 20.5v-9H9v-6h6v9h5.5v6"/><path d="M9 11.5v9M15 14.5v6M2.5 20.5h19"/>'
   };
   var ik = function (n, kl) { return '<svg class="ikona ' + (kl || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (IK[n] || '') + '</svg>'; };
   function zdz(poza, kl) { return '<span class="zdz ' + (kl || '') + '"><img alt="" src="' + POZY[poza] + '"></span>'; }
@@ -1830,6 +1892,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       else { S.zleRejestr = 0; if (!d.zamkniety && stn.ostatnio) S.okRejestr = stn.ostatnio; }
       if (S.dzien === S.dzis) delete S.kal[S.dzis.slice(0, 7)];   // miesiąc w kalendarzu przeliczy się przy otwarciu
       if (cicho) { renderGora(); renderTab(); renderOkno(); } else renderStrona();
+      if (S.okno && S.okno.typ === 'hit') wczytajHit(cicho && !!S.hitD && S.hitD.k === k);
       if (Object.keys(S.nowe).length) setTimeout(function () { S.nowe = {}; }, 2600);
     } catch (e) {
       if (nr !== wczytuje) return;
@@ -1845,7 +1908,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     var m = S.mies, nr = ++wczytujeM, buf = S.kal[m];
     if (!cicho) {
       // miesiąc zamknięty, już policzony (np. z kalendarza) — od razu z pamięci
-      if (buf && buf.zamkniety && buf.dni && (!buf.dni.length || buf.dni[0].k)) { S.daneM = buf; S.wynikM = liczM(buf); S.ladujeM = false; S.bladM = ''; renderStrona(); return; }
+      if (buf && buf.zamkniety && buf.dni && (!buf.dni.length || buf.dni[0].k)) { S.daneM = buf; S.wynikM = liczM(buf); S.ladujeM = false; S.bladM = ''; renderStrona(); wczytajHitM(false); return; }
       S.ladujeM = true; S.daneM = null; S.wynikM = null; S.bladM = ''; renderStrona();
     }
     try {
@@ -1856,7 +1919,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       var stn = d.stan || {};
       if (stn.ok === false) S.zleRejestr = (S.zleRejestr || 0) + 1;
       else { S.zleRejestr = 0; if (!d.zamkniety && stn.ostatnio) S.okRejestr = stn.ostatnio; }
-      if (cicho) { renderGora(); var l = document.getElementById('lista'); if (l) l.innerHTML = listaM(); } else renderStrona();
+      if (cicho) { renderGora(); var l = document.getElementById('lista'); if (l) { var hs = l.querySelector('.ut-hit'), pz = hs ? hs.scrollTop : 0; l.innerHTML = listaM(); var hn = l.querySelector('.ut-hit'); if (hn && pz) hn.scrollTop = pz; } } else renderStrona();
+      wczytajHitM(cicho);
     } catch (e) {
       if (nr !== wczytujeM) return;
       S.ladujeM = false;
@@ -2089,7 +2153,113 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     });
     h += '</tbody><tfoot><tr><td class="d">Razem</td><td>' + zl(w.F.z) + '</td><td>' + zl(w.R.z) + '</td><td class="s"><b>' + zl(w.razem) + '</b></td>' +
       '<td class="n2">' + w.n + '</td><td class="n1">' + (w.n ? zl(w.razem / w.n) : '—') + '</td></tr></tfoot></table></div></section>';
+    return h + sekcjaHitM();
+  }
+
+  /* ───────────── Hitometr: ile sztuk każdego zestawu (albo każdej pozycji) w dniu i w miesiącu ─────────────
+     utargometr_hity → pozycje [nazwa, zestaw, szt., szt. F, szt. R, wartość gr] — z tych samych transakcji co utarg */
+  function hitWiersze(d) { return ((d && d.pozycje) || []).filter(function (x) { return S.hitTryb === 'w' || x[1]; }); }
+  function hitPod(l) {
+    var szt = l.reduce(function (a, x) { return a + x[2]; }, 0), z = S.hitTryb !== 'w';
+    return ile(szt) + ' ' + (z ? odm(szt, 'zestaw', 'zestawy', 'zestawów') : 'szt.') + ' · ' + l.length + ' ' +
+      (z ? odm(l.length, 'rodzaj', 'rodzaje', 'rodzajów') : odm(l.length, 'pozycja', 'pozycje', 'pozycji'));
+  }
+  function hitometr(st, gdzie) {
+    var h = '<div class="ut-hit-ster">' + seg('ht', 'htryb', S.hitTryb, [['z', 'Zestawy'], ['w', 'Wszystko']], 'Co liczyć') +
+      '<div class="ut-leg"><span style="--kol:var(--F)"><i></i>Fabryka</span><span style="--kol:var(--R)"><i></i>Restauracja</span></div>' +
+      '<button class="drugi kop" data-a="kopiujH" data-v="' + gdzie + '"' + (st && st.dane ? '' : ' disabled') + '>' + ik('kopiuj') + ' Kopiuj do arkusza</button></div>';
+    if (!st || (!st.dane && !st.blad)) return h + '<p class="ut-hit-info">' + T('Liczę sztuki — zamówienie po zamówieniu…') + '</p>';
+    if (!st.dane) return h + '<div class="ut-alarm info uw" role="alert">' + ik('uwaga') + '<span>' + T(st.blad) + '</span></div>' +
+      '<div class="ut-hit-pon"><button class="drugi" data-a="ponowH" data-v="' + gdzie + '">' + ik('odswiez') + ' Spróbuj jeszcze raz</button></div>';
+    var d = st.dane, l = hitWiersze(d), z = S.hitTryb !== 'w';
+    if (!l.length) return h + '<p class="ut-hit-info">' + T(z ? 'Nie ma tu jeszcze sprzedanych zestawów.' : 'Nie ma tu jeszcze sprzedanych pozycji.') + '</p>';
+    var suma = l.reduce(function (a, x) { return a + x[2]; }, 0), max = l[0][2] || 1;
+    h += '<div class="ut-hit' + (gdzie === 'mies' ? ' m' : '') + '" aria-label="' + (z ? 'Zestawy' : 'Pozycje') + ' od najczęściej sprzedawanych">' +
+      '<div class="ut-hit-w nag"><span class="nr">#</span><span>' + (z ? 'Zestaw' : 'Pozycja') + '</span><span>szt.</span><span>udział</span><span class="kw">wartość</span></div>';
+    l.forEach(function (x, i) {
+      h += '<div class="ut-hit-w" title="' + esc(x[0] + ' — ' + x[2] + ' szt.: Fabryka ' + x[3] + ', Restauracja ' + x[4]) + '"><span class="nr">' + (i + 1) + '.</span>' +
+        '<div class="nz"><span>' + esc(x[0]) + '</span><div class="pas" aria-hidden="true"><i class="f" style="width:' + (x[3] / max * 100).toFixed(1) + '%"></i>' +
+        '<i class="r" style="width:' + (x[4] / max * 100).toFixed(1) + '%"></i></div></div>' +
+        '<b>' + ile(x[2]) + '</b><span class="u">' + proc(x[2], suma) + '</span><span class="kw">' + zl(x[5]) + '</span></div>';
+    });
+    h += '</div>';
+    if (d.bez_szczegolow) h += '<p class="ut-hit-info">' + T(d.bez_szczegolow + ' ' + odm(d.bez_szczegolow, 'transakcja', 'transakcje', 'transakcji') +
+      ' bez pozycji z DYSZY (np. wpis ręczny w Rejestrze) — ich zestawów tu nie ma. Wartość: sztuki × cena z menu, przed rabatami.') + '</p>';
+    else h += '<p class="ut-hit-info">' + T('Wartość: sztuki × cena z menu, przed rabatami.') + '</p>';
     return h;
+  }
+  function sekcjaHitM() {
+    var st = S.hitM && S.hitM.m === S.mies ? S.hitM : null, l = st && st.dane ? hitWiersze(st.dane) : [];
+    var pod = l.length ? hitPod(l) + (S.daneM && !S.daneM.zamkniety ? ' · narastająco' : '') : 'ile sztuk każdego zestawu sprzedało się w tym miesiącu';
+    return '<section class="ut-tr ut-hit-s" aria-label="Hitometr"><div class="ut-tr-g"><h2>Hitometr</h2><span class="pod">' + esc(pod) + '</span></div>' + hitometr(st, 'mies') + '</section>';
+  }
+  function oknoHit() {
+    var st = S.hitD && S.hitD.k === S.dzien ? S.hitD : null, l = st && st.dane ? hitWiersze(st.dane) : [];
+    var zyw = S.dane && !S.dane.zamkniety, stn = (S.dane && S.dane.stan) || {};
+    return '<div class="okno ut-okno ut-hit-o" role="dialog" aria-modal="true" aria-label="Hitometr"><div class="okno-g"><h2>' + ik('hit') + 'Hitometr</h2>' +
+      '<button class="zamknij" data-a="zamknij" aria-label="Zamknij">' + ik('x') + '</button></div><div class="okno-t">' +
+      '<p class="ut-hit-kiedy"><b>' + esc(slownie(S.dzien) + (zyw ? ' · narastająco do ' + (stn.ostatnio || '—') : '')) + '</b>' + (l.length ? '<span>' + esc(hitPod(l)) + '</span>' : '') + '</p>' +
+      hitometr(st, 'dzien') + '</div></div>';
+  }
+  var wczytujeH = 0;
+  async function wczytajHit(cicho) {
+    var k = S.dzien, nr = ++wczytujeH;
+    if (!k) return;
+    if (!cicho || !S.hitD || S.hitD.k !== k) { S.hitD = { k: k, dane: null, blad: '' }; if (S.okno && S.okno.typ === 'hit') renderOkno(); }
+    try {
+      var d = await baza.rpc('utargometr_hity', { p_od: k, p_do: k });
+      if (nr !== wczytujeH || k !== S.dzien) return;
+      S.hitD = { k: k, dane: d, blad: '' };
+    } catch (e) {
+      if (nr !== wczytujeH) return;
+      if (e && e.sesja) { pokazLogowanie('Sesja wygasła — zaloguj się ponownie.'); return; }
+      if (cicho && S.hitD && S.hitD.k === k && S.hitD.dane) return;   // chwilowy brak sieci — zostaje ostatni stan
+      S.hitD = { k: k, dane: null, blad: tekstBledu(e) };
+    }
+    if (S.okno && S.okno.typ === 'hit') renderOkno();
+  }
+  var wczytujeHM = 0;
+  async function wczytajHitM(cicho) {
+    var m = S.mies, nr = ++wczytujeHM;
+    if (!m || !S.dzis) return;
+    var od = m + '-01', doD = koniecMies(m), zam = !!(S.daneM && S.daneM.zamkniety);
+    if (S.od && od < S.od) od = S.od;
+    if (doD > S.dzis) doD = S.dzis;
+    if (od > doD) { S.hitM = { m: m, dane: { pozycje: [], transakcji: 0, bez_szczegolow: 0 }, blad: '' }; odswiezHitM(); return; }
+    if (zam && S.kalH[m]) { S.hitM = { m: m, dane: S.kalH[m], blad: '' }; odswiezHitM(); return; }   // miesiąc zamknięty — z pamięci
+    if (!cicho || !S.hitM || S.hitM.m !== m) { S.hitM = { m: m, dane: null, blad: '' }; odswiezHitM(); }
+    try {
+      var d = await baza.rpc('utargometr_hity', { p_od: od, p_do: doD });
+      if (nr !== wczytujeHM || m !== S.mies) return;
+      if (zam) S.kalH[m] = d;
+      S.hitM = { m: m, dane: d, blad: '' };
+    } catch (e) {
+      if (nr !== wczytujeHM) return;
+      if (e && e.sesja) { pokazLogowanie('Sesja wygasła — zaloguj się ponownie.'); return; }
+      if (cicho && S.hitM && S.hitM.m === m && S.hitM.dane) return;
+      S.hitM = { m: m, dane: null, blad: tekstBledu(e) };
+    }
+    odswiezHitM();
+  }
+  function odswiezHitM() {
+    if (S.widok !== 'miesiac') return;
+    var sek = document.querySelector('.ut-hit-s');
+    if (!sek) return;                                // miesiąc bez transakcji — sekcji nie ma
+    var tmp = document.createElement('div'); tmp.innerHTML = sekcjaHitM();
+    var hs = sek.querySelector('.ut-hit'), przew = hs ? hs.scrollTop : 0;
+    sek.replaceWith(tmp.firstElementChild);
+    var nowa = document.querySelector('.ut-hit-s .ut-hit'); if (nowa && przew) nowa.scrollTop = przew;
+  }
+  function kopiujH(gdzie) {
+    var st = gdzie === 'mies' ? S.hitM : S.hitD, d = st && st.dane;
+    if (!d) return;
+    var l = hitWiersze(d), suma = l.reduce(function (a, x) { return a + x[2]; }, 0);
+    var kw = function (g) { return ((g || 0) / 100).toFixed(2).replace('.', ','); }, okres = gdzie === 'mies' ? miesiacNazwa(S.mies) : S.dzien;
+    var w = [['Okres', 'Miejsce', 'Pozycja', 'Zestaw', 'Szt.', 'Szt. Fabryka', 'Szt. Restauracja', 'Udział', 'Wartość'].join('\t')];
+    l.forEach(function (x, i) {
+      w.push([okres, i + 1, x[0], x[1] ? 'tak' : 'nie', x[2], x[3], x[4], proc(x[2], suma), kw(x[5])].map(function (v) { return String(v).replace(/[\t\n]/g, ' '); }).join('\t'));
+    });
+    schowek(w.join('\n'), l.length + ' ' + odm(l.length, 'wiersz', 'wiersze', 'wierszy'));
   }
   var KANALY = [['i', 'internet'], ['t', 'telefon'], ['s', 'stoliki']];
   function kafel(m, nazwa, opis, w) {
@@ -2131,6 +2301,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     h += '<div class="ut-ster" id="ster">' +
       seg('m', 'fm', f.m, [['', 'Wszystkie'], ['F', 'Fabryka'], ['R', 'Restauracja']], 'Miejsce') +
       seg('k', 'fk', f.k, [['', 'Każdy kanał'], ['i', 'i'], ['t', 't'], ['s', 's']], 'Kanał') +
+      '<button class="drugi hit" data-a="hitometr" aria-haspopup="dialog">' + ik('hit') + ' Hitometr</button>' +
       '<select class="pok" id="pokaz-p" aria-label="Płatność i stan">' + POKAZ_OPCJE.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === f.p ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
       '<label class="szukaj"><span class="ukryte">Szukaj</span>' + ik('szukaj') + '<input id="szukaj" type="search" autocomplete="off" placeholder="Szukaj: numer, zestaw, stolik, osoba, uwaga" value="' + esc(f.q) + '"></label>' +
       '<button class="drugi kop" data-a="kopiuj">' + ik('kopiuj') + ' Kopiuj do arkusza</button></div>';
@@ -2214,10 +2385,14 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     var el = document.getElementById('warstwa');
     if (!S.okno || S.etap !== 'app') { if (el) el.remove(); return; }
     var ts = document.getElementById('toast'); if (ts && !el) ts.className = '';   // okno zasłania dymek ZDZISŁAWA — chowam go
-    var html = S.okno.typ === 'tr' ? oknoTr(S.okno.id) : S.okno.typ === 'kal' ? oknoKal() : S.okno.typ === 'mies' ? oknoMies() : S.okno.typ === 'zasady' ? oknoZasady() : '';
+    var html = S.okno.typ === 'tr' ? oknoTr(S.okno.id) : S.okno.typ === 'kal' ? oknoKal() : S.okno.typ === 'mies' ? oknoMies() : S.okno.typ === 'zasady' ? oknoZasady()
+      : S.okno.typ === 'hit' ? oknoHit() : '';
     if (!html) { S.okno = null; if (el) el.remove(); return; }
     if (!el) { el = document.createElement('div'); el.id = 'warstwa'; el.className = 'warstwa'; el.setAttribute('data-a', 'zamknij-tlo'); document.body.appendChild(el); }
+    // to samo okno odświeżone (np. Hitometr dziś co minutę) — zostaje w tym samym miejscu listy
+    var stare = el.firstElementChild, przew = stare && stare.getAttribute('data-typ') === S.okno.typ ? stare.scrollTop : 0;
     el.innerHTML = html;
+    if (el.firstElementChild) { el.firstElementChild.setAttribute('data-typ', S.okno.typ); if (przew) el.firstElementChild.scrollTop = przew; }
   }
   function zamknijOkno() { S.okno = null; renderOkno(); }
   var NAZWY_PLAT = { karta: 'Karta', blik: 'BLIK', gotowka: 'Gotówka', online: 'Online', voucher: 'Voucher' };
@@ -2334,6 +2509,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       ['Który dzień', 'Od północy do 13:00 na wejściu pokazuję wczoraj ze znacznikiem 23:59, od 13:00 — dziś. Każdy inny dzień: strzałki albo kalendarz.'],
       ['Na żywo', 'Dziś pobieram dzień od nowa co minutę; godzina w „∑ (gg:mm)” to stan danych. Nowe transakcje na chwilę podświetlam na zielono.'],
       ['Dni sprzed Rejestru', 'Październik i pierwsze dni listopada (Restauracja do 3.11, Fabryka do 5.11) — prosto z DYSZY, tak jak liczy je automat Rejestru: dowozy i odbiory potwierdzone albo zapłacone, stoliki zamknięte; kwoty z płatności zapisanych w DYSZY (BLIK tylko tam, gdzie go zapisała), bez poprawek załogi. Oznaczone „z DYSZY”.'],
+      ['Hitometr', 'Ile sztuk każdego zestawu sprzedało się w dniu (przycisk przy transakcjach; dziś narastająco) i w miesiącu (okno pod „Dniami”). Sztuki z zamówień w DYSZY tych samych transakcji, które liczą się w utargu — każde zamówienie raz; zestaw — tak jak w menu DYSZY. „Wszystko” pokazuje też rolki, napoje i dodatki (bez gratisów). Wartość — sztuki × cena z menu, przed rabatami.'],
       ['Miesiąc', 'Przełącznik „Miesiąc” obok wyboru dnia: suma dni miesiąca według tych samych zasad. Miesiąc w toku — narastająco do ostatnich danych, odświeżany co minutę („∑ (dd.mm, gg:mm)”); po jego ostatnim dniu (od 4:00 następnego) — „Miesiąc zamknięty”.'],
       ['Kwoty i czas', 'Kwoty brutto, w złotych; czas warszawski.']
     ];
@@ -2440,6 +2616,13 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       case 'mies-dzien': doDnia(v); break;
       case 'ponowM': S.bladM = ''; wczytajM(false); break;
       case 'tr': S.okno = { typ: 'tr', id: v }; renderOkno(); break;
+      case 'hitometr':
+        S.okno = { typ: 'hit' };
+        if (S.hitD && S.hitD.k === S.dzien && S.hitD.dane && S.dane && S.dane.zamkniety) renderOkno(); else wczytajHit(false);
+        break;
+      case 'htryb': S.hitTryb = v === 'w' ? 'w' : 'z'; if (S.okno && S.okno.typ === 'hit') renderOkno(); odswiezHitM(); break;
+      case 'kopiujH': kopiujH(v); break;
+      case 'ponowH': if (v === 'mies') wczytajHitM(false); else wczytajHit(false); break;
     }
   });
   function zaznaczSeg(el) { Array.prototype.forEach.call(el.parentNode.children, function (b) { b.setAttribute('aria-pressed', String(b === el)); }); }
