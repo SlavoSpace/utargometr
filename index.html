@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Utargometr">
 <meta name="robots" content="noindex, nofollow">
-<meta name="utargometr-wersja" content="1.0 · 2026-11-18 00:51 · 0f59729">
+<meta name="utargometr-wersja" content="1.1 · 2026-11-18 01:05 · 1c557fa">
 <title>Utargometr</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -447,7 +447,9 @@ button.liczba:active{filter:brightness(.95)}
 @media (max-width:640px){.info-i{width:44px;height:44px;flex-basis:44px}}
 
 /* wybór dnia: ‹ data › — trzy pola tej samej wysokości, na środku */
-.ut-dzien{display:grid;grid-template-columns:var(--wys) minmax(0,380px) var(--wys);gap:10px;justify-content:center;align-items:center}
+.ut-dzien{display:grid;grid-template-columns:96px var(--wys) minmax(0,380px) var(--wys) 96px;gap:10px;justify-content:center;align-items:center}
+.ut-tryb{height:var(--wys);border-radius:12px;border:1px solid var(--ramka2);background:var(--pow);color:var(--nieaktywny);font-size:14px;font-weight:800;padding:0 10px;white-space:nowrap;display:flex;align-items:center;justify-content:center}
+.ut-tryb[aria-pressed="true"]{background:var(--aktywny);border-color:var(--aktywny);color:var(--naAktywnym)}
 .ut-strz{width:var(--wys);height:var(--wys);border-radius:12px;border:1px solid var(--ramka2);background:var(--pow);display:flex;align-items:center;justify-content:center;color:var(--tekst)}
 .ut-strz .ikona{width:20px;height:20px;stroke-width:2.4}
 .ut-strz:disabled{opacity:.32}
@@ -516,6 +518,27 @@ button.liczba:active{filter:brightness(.95)}
 .ut-s:disabled{cursor:default}
 .ut-godz{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:8px;margin-top:7px;text-align:center;font-size:12px;color:var(--tekst3);font-variant-numeric:tabular-nums}
 .ut-godz .wyb{color:var(--mocTekst);font-weight:800}
+/* miesiąc: słupki dzień po dniu, lista dni, wybór miesiąca */
+.ut-slupki.m,.ut-godz.m{gap:4px}
+.ut-slupki.m .ut-s{padding:0 1px;border-radius:6px}
+.ut-godz.m{font-size:11px}
+.ut-ster-m{display:flex;justify-content:flex-end;margin-bottom:12px}
+.ut-ster-m .kop{min-height:var(--wys)}
+.dni-w{border:1px solid var(--ramka);background:var(--pow);border-radius:16px;overflow:hidden}
+table.dni{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
+.dni th{background:var(--pow2);text-align:right;padding:10px;border-bottom:1px solid var(--ramka);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tekst3);white-space:nowrap}
+.dni td{padding:9px 10px;border-bottom:1px solid var(--linia);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dni th:first-child,.dni td:first-child{text-align:left}
+.dni tbody tr{cursor:pointer}
+.dni tbody tr:hover td,.dni tbody tr:focus-visible td{background:var(--pow3)}
+.dni td.d{font-weight:700}
+.dni td.d small{display:block;font-weight:500;font-size:11.5px;color:var(--tekst3)}
+.dni tr.dzis td.d small{color:var(--mocTekst);font-weight:700}
+.dni tr.pusty td{color:var(--tekst3)}
+.dni td.s b{font-size:14.5px}
+.dni tfoot td{background:var(--pow2);font-weight:800;border-bottom:0}
+.ut-mies{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ut-mz{min-height:64px}
 
 /* transakcje */
 .ut-tr{margin-top:28px}
@@ -630,6 +653,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   .ut-ster > .pok{justify-self:stretch}
   .ut-ster select{width:100%}
   .tab .nv{display:none}
+  .dni .n1{display:none}
 }
 @media (max-width:860px){
   .ut-mr{grid-template-columns:1fr}
@@ -641,7 +665,21 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   .nag-sr{display:none}
   .nag-p{margin-left:auto}
   .nag-tyt{font-size:24px}
-  .ut-dzien{grid-template-columns:var(--wys) minmax(0,1fr) var(--wys);gap:8px}
+  .ut-dzien{grid-template-columns:var(--wys) minmax(0,1fr) minmax(0,1fr) var(--wys);gap:8px}
+  .ut-tryb.l{grid-column:1/3;grid-row:1}
+  .ut-tryb.p{grid-column:3/5;grid-row:1}
+  .ut-dzien .ut-strz.l{grid-column:1;grid-row:2}
+  .ut-dzien .ut-data{grid-column:2/4;grid-row:2}
+  .ut-dzien .ut-strz.p{grid-column:4;grid-row:2}
+  .ut-slupki.m,.ut-godz.m{gap:2px}
+  .ut-slupki.m .ut-s{padding:0;border-radius:4px}
+  .ut-godz.m .cicho{visibility:hidden}
+  .ut-ster-m .kop{width:100%}
+  table.dni{font-size:13px}
+  .dni th,.dni td{padding:9px 6px}
+  .dni td.s b{font-size:13.5px}
+  .dni .n2{display:none}
+  .ut-mies{grid-template-columns:repeat(3,minmax(0,1fr))}
   .ut-data{font-size:14.5px;padding:0 10px}
   .ut-suma{margin-top:20px}
   .ut-stan .kr{display:none}
@@ -1481,15 +1519,19 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       var t = teraz(), granica = k === t.dzien ? t.min : 24 * 60;
       return dzien(k).filter(function (x) { return x.czas <= granica; }).map(function (x) { return widok(x, granica); });
     }
+    // dzień do miesiąca — te same pola co utargometr_miesiac w bazie: f, r, n, k {Fi…Rs: [kwota, szt.]}, p {karta…voucher: [kwota, szt.]}
     function sumy(k) {
-      var f = 0, r = 0, n = 0;
+      var o = { dzien: k, f: 0, r: 0, n: 0, k: { Fi: [0, 0], Ft: [0, 0], Fs: [0, 0], Ri: [0, 0], Rt: [0, 0], Rs: [0, 0] },
+        p: { karta: [0, 0], blik: [0, 0], gotowka: [0, 0], online: [0, 0], voucher: [0, 0] } };
       transakcje(k).forEach(function (x) {
         if (x.stan !== 'ok') return;
+        Object.keys(o.p).forEach(function (m) { var v = x.plat[m] || 0; if (v) { o.p[m][0] += v; o.p[m][1]++; } });
         var u = (x.plat.karta || 0) + (x.plat.blik || 0) + (x.plat.gotowka || 0) + (x.plat.online || 0);
         if (!u) return;
-        n++; if (x.m === 'F') f += u; else r += u;
+        o.n++; if (x.m === 'F') o.f += u; else o.r += u;
+        var y = o.k[x.m + x.kanal]; if (y) { y[0] += u; y[1]++; }
       });
-      return { f: f, r: r, n: n };
+      return o;
     }
     function dostepny(k) { var t = teraz(); return /^\d{4}-\d{2}-\d{2}$/.test(k || '') && k >= od() && k <= t.dzien; }
 
@@ -1509,8 +1551,10 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
         wymagaj();
         var m = String(a.p_miesiac || ''), t = teraz(), dni = [];
         if (!/^\d{4}-\d{2}$/.test(m)) throw blad('ZLY_MIESIAC');
-        for (var k = m + '-01'; k.slice(0, 7) === m; k = dodajDni(k, 1)) if (dostepny(k)) { var s = sumy(k); dni.push({ dzien: k, f: s.f, r: s.r, n: s.n }); }
-        return { miesiac: m, od: od(), dzis: t.dzien, dni: dni };
+        for (var k = m + '-01'; k.slice(0, 7) === m; k = dodajDni(k, 1)) if (dostepny(k)) dni.push(sumy(k));
+        var zamkniety = m < t.dzien.slice(0, 7);
+        return { miesiac: m, od: od(), dzis: t.dzien, zamkniety: zamkniety, dni: dni,
+          stan: { ok: true, ostatnio: zamkniety ? null : t.hhmm, tekst: '', bez_szczegolow: 0, szczegoly: { ok: true, ostatnio: null, tekst: '' } } };
       }
     };
     return {
@@ -1565,7 +1609,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   var S = {
     etap: 'logowanie', ja: null, motyw: czytaj(KL.motyw, 'ciemny') === 'jasny' ? 'jasny' : 'ciemny', menu: false,
     dzis: null, od: null, dzien: null, auto: true, dane: null, wynik: null, laduje: false, blad: '', wczytano: 0,
-    filtr: { m: '', k: '', p: '', q: '', h: null }, sort: 'nowe', okno: null, kal: {}, nowe: {}
+    filtr: { m: '', k: '', p: '', q: '', h: null }, sort: 'nowe', okno: null, kal: {}, nowe: {},
+    widok: 'dzien', mies: null, daneM: null, wynikM: null, ladujeM: false, bladM: '', wczytanoM: 0
   };
 
   /* ───────────── pomocnicze ───────────── */
@@ -1589,6 +1634,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     return (gr < 0 ? '−' : '') + String(z).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ',' + String(g).padStart(2, '0');
   }
   function tys(gr) { return (Math.round(gr / 10000) / 10).toFixed(1).replace('.', ',') + '<span class="t"> tys.</span>'; }
+  function tysMln(gr) { return gr >= 1e8 ? (Math.round(gr / 1e6) / 100).toFixed(2).replace('.', ',') + '<span class="t"> mln</span>' : tys(gr); }
   function proc(x, c) { return c ? (Math.round(x / c * 1000) / 10).toFixed(1).replace('.', ',') + '%' : '—'; }
   function odm(n, a, b, c) { var d = n % 10, s = n % 100; return n === 1 ? a : (d >= 2 && d <= 4 && (s < 12 || s > 14)) ? b : c; }
   var IK = {
@@ -1640,6 +1686,25 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     });
     return w;
   }
+
+  // miesiąc: dni z bazy (f, r, n, k {Fi…Rs: [kwota, szt.]}, p {karta…voucher: [kwota, szt.]}) → to samo co licz() dla dnia
+  function liczM(d) {
+    var b = function () { return { z: 0, n: 0 }; };
+    var w = { razem: 0, n: 0, poza: 0, F: { z: 0, n: 0, i: b(), t: b(), s: b() }, R: { z: 0, n: 0, i: b(), t: b(), s: b() },
+      plat: { karta: b(), blik: b(), gotowka: b(), online: b(), voucher: b() }, dni: 0 };
+    (d.dni || []).forEach(function (x) {
+      var k = x.k || {}, p = x.p || {};
+      ['F', 'R'].forEach(function (m) {
+        ['i', 't', 's'].forEach(function (c) { var y = k[m + c] || [0, 0]; w[m][c].z += y[0]; w[m][c].n += y[1]; w[m].z += y[0]; w[m].n += y[1]; });
+      });
+      Object.keys(w.plat).forEach(function (m) { var y = p[m] || [0, 0]; w.plat[m].z += y[0]; w.plat[m].n += y[1]; });
+      w.razem += (x.f || 0) + (x.r || 0); w.n += x.n || 0;
+      if ((x.f || 0) + (x.r || 0) > 0) w.dni++;
+    });
+    return w;
+  }
+  function ddmm(k) { return k.slice(8, 10) + '.' + k.slice(5, 7); }
+  function koniecMies(m) { return dodajDni(dodajMies(m, 1) + '-01', -1); }
 
   /* ───────────── motyw ───────────── */
   function zastosujMotyw() {
@@ -1708,6 +1773,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   async function wyloguj() {
     await baza.wyloguj();
     S.ja = null; S.dane = null; S.wynik = null; S.kal = {}; S.blad = ''; S.dzien = null; S.auto = true;
+    S.widok = 'dzien'; S.mies = null; S.daneM = null; S.wynikM = null; S.bladM = '';
     pokazLogowanie('Wylogowano.');
   }
 
@@ -1737,8 +1803,9 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     S.etap = 'app'; S.blad = '';
     okno.ukryj();
     render();
-    await wczytaj(false);
-    if (zLogowania && S.wynik) powitanie();
+    if (S.widok === 'miesiac') { S.mies = S.mies || S.dzien.slice(0, 7); await wczytajM(false); }
+    else await wczytaj(false);
+    if (zLogowania && S.wynik && S.widok === 'dzien') powitanie();
   }
   var wczytuje = 0;
   async function wczytaj(cicho) {
@@ -1768,6 +1835,55 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       if (cicho && S.dane) return;                   // chwilowy brak sieci — zostaje ostatni stan, spróbuję za minutę
       S.blad = tekstBledu(e); renderStrona();
     }
+  }
+  var wczytujeM = 0;
+  async function wczytajM(cicho) {
+    var m = S.mies, nr = ++wczytujeM, buf = S.kal[m];
+    if (!cicho) {
+      // miesiąc zamknięty, już policzony (np. z kalendarza) — od razu z pamięci
+      if (buf && buf.zamkniety && buf.dni && (!buf.dni.length || buf.dni[0].k)) { S.daneM = buf; S.wynikM = liczM(buf); S.ladujeM = false; S.bladM = ''; renderStrona(); return; }
+      S.ladujeM = true; S.daneM = null; S.wynikM = null; S.bladM = ''; renderStrona();
+    }
+    try {
+      var d = await baza.rpc('utargometr_miesiac', { p_miesiac: m });
+      S.kal[m] = d;
+      if (nr !== wczytujeM || m !== S.mies || S.widok !== 'miesiac') return;
+      S.daneM = d; S.wynikM = liczM(d); S.ladujeM = false; S.bladM = ''; S.wczytanoM = Date.now();
+      var stn = d.stan || {};
+      if (stn.ok === false) S.zleRejestr = (S.zleRejestr || 0) + 1;
+      else { S.zleRejestr = 0; if (!d.zamkniety && stn.ostatnio) S.okRejestr = stn.ostatnio; }
+      if (cicho) { renderGora(); var l = document.getElementById('lista'); if (l) l.innerHTML = listaM(); } else renderStrona();
+    } catch (e) {
+      if (nr !== wczytujeM) return;
+      S.ladujeM = false;
+      if (e && e.sesja) { pokazLogowanie('Sesja wygasła — zaloguj się ponownie.'); return; }
+      if (cicho && S.daneM) return;
+      S.bladM = tekstBledu(e); renderStrona();
+    }
+  }
+  function przelacz(v) {
+    if (v === S.widok || !S.dzien) return;
+    S.zleRejestr = 0; S.okRejestr = null;
+    if (v === 'miesiac') { S.widok = 'miesiac'; S.mies = S.mies || S.dzien.slice(0, 7); wczytajM(false); }
+    else {
+      S.widok = 'dzien';
+      if (!S.dane) wczytaj(false); else { renderStrona(); if (!S.dane.zamkniety) wczytaj(true); }
+    }
+  }
+  function zmienMies(m) {
+    if (!m || !S.dzis) return;
+    var odM = S.od ? S.od.slice(0, 7) : m, doM = S.dzis.slice(0, 7);
+    if (m < odM) m = odM;
+    if (m > doM) m = doM;
+    if (m === S.mies && S.daneM) return;
+    S.mies = m; S.zleRejestr = 0; S.okRejestr = null;
+    wczytajM(false);
+  }
+  function doDnia(k) {
+    S.widok = 'dzien'; S.zleRejestr = 0; S.okRejestr = null;
+    if (k === S.dzien && S.dane) { S.auto = false; renderStrona(); if (!S.dane.zamkniety) wczytaj(true); }
+    else zmienDzien(k, false);
+    var t = document.getElementById('tresc'); if (t) t.scrollTop = 0;
   }
   function zmienDzien(k, auto) {
     if (!k || k === S.dzien) return;
@@ -1810,7 +1926,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   function renderStrona() {
     var el = document.getElementById('strona');
     if (!el) return;
-    el.innerHTML = '<div id="gora">' + gora() + '</div><div id="lista">' + lista() + '</div>' +
+    el.innerHTML = '<div id="gora">' + gora() + '</div><div id="lista">' + (S.widok === 'miesiac' ? listaM() : lista()) + '</div>' +
       (POKAZ ? '<p class="pokaz-tekst">' + T('Pokaz bez bazy: transakcje są zmyślone — generowane dla każdego dnia z menu DYSZY i z proporcji Rejestru (dni tygodnia, godziny, kanały, płatności). Układ i liczenie jak w aplikacji. Dziś co minutę dochodzą nowe transakcje.') + '</p>' : '');
   }
   function renderGora() { var el = document.getElementById('gora'); if (el) el.innerHTML = gora(); }
@@ -1820,13 +1936,49 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   }
 
   /* wybór dnia + suma + kafle + płatności + rytm */
+  function nav() {
+    var mies = S.widok === 'miesiac', h = '<nav class="ut-dzien" aria-label="' + (mies ? 'Miesiąc' : 'Dzień') + '">' +
+      '<button class="ut-tryb l" data-a="tryb" data-v="dzien" aria-pressed="' + !mies + '">Dzień</button>';
+    if (mies) {
+      var odM = S.od ? S.od.slice(0, 7) : S.mies, doM = S.dzis ? S.dzis.slice(0, 7) : S.mies;
+      h += '<button class="ut-strz l" data-a="mies" data-v="-1" aria-label="Poprzedni miesiąc"' + (S.mies <= odM ? ' disabled' : '') + '>' + ik('lewo') + '</button>' +
+        '<button class="ut-data" data-a="wybor-mies" aria-haspopup="dialog" aria-label="Wybierz miesiąc — ' + esc(miesiacNazwa(S.mies)) + '">' + ik('kal') + '<span>' + esc(miesiacNazwa(S.mies)) + '</span></button>' +
+        '<button class="ut-strz p" data-a="mies" data-v="1" aria-label="Następny miesiąc"' + (S.mies >= doM ? ' disabled' : '') + '>' + ik('prawo') + '</button>';
+    } else {
+      h += '<button class="ut-strz l" data-a="dzien" data-v="-1" aria-label="Poprzedni dzień"' + (S.od && S.dzien <= S.od ? ' disabled' : '') + '>' + ik('lewo') + '</button>' +
+        '<button class="ut-data" data-a="kalendarz" aria-haspopup="dialog" aria-label="Wybierz dzień — ' + esc(slownie(S.dzien)) + '">' + ik('kal') + '<span class="ut-dl">' + esc(slownie(S.dzien)) + '</span><span class="ut-kr">' + esc(krotko(S.dzien)) + '</span></button>' +
+        '<button class="ut-strz p" data-a="dzien" data-v="1" aria-label="Następny dzień"' + (S.dzien === S.dzis ? ' disabled' : '') + '>' + ik('prawo') + '</button>';
+    }
+    return h + '<button class="ut-tryb p" data-a="tryb" data-v="miesiac" aria-pressed="' + mies + '">Miesiąc</button></nav>';
+  }
+  // uwagi o świeżości danych (dzień i miesiąc w toku)
+  function uwagi(st, zamkniety) {
+    var h = '';
+    if (st.ok === false && (S.zleRejestr || 0) >= 2) {
+      // bez technicznych szczegółów na ekranie (zostają w podpowiedzi), każdy powód raz
+      var pow = String(st.tekst || '').split(' · ').filter(function (x, i, a) { return x && a.indexOf(x) === i; }).join(' · ');
+      var kiedy = S.okRejestr || st.ostatnio || '';
+      h += '<div class="ut-alarm info uw" role="status"' + (pow ? ' title="' + esc(pow) + '"' : '') + '>' + ik('uwaga') + '<span>' + T(pow
+        ? 'DYSZA chwilowo nie odpowiada — ZDZISŁAW ponawia co minutę.' + (kiedy ? ' Ostatnie dane: ' + kiedy + '.' : '') + ' Do tego czasu liczby mogą być niepełne.'
+        : 'Rejestr nie dostał nowych danych z DYSZY' + (kiedy ? ' od ' + kiedy : '') + ' — liczby mogą być niepełne.') + '</span></div>';
+    }
+    else if (st.szczegoly && st.szczegoly.ok === false && !zamkniety) h += '<div class="ut-alarm info uw" role="status">' + ik('uwaga') + '<span>' + T('Szczegóły z DYSZY nie dochodzą' + (st.szczegoly.ostatnio ? ' od ' + st.szczegoly.ostatnio : '') + ' — kwoty są pełne, opisy i podział na i / t mogą być niepełne.') + '</span></div>';
+    if (st.bez_szczegolow > 0) h += '<div class="ut-alarm info" role="status">' + ik('uwaga') + '<span>' + T(st.bez_szczegolow + ' ' + odm(st.bez_szczegolow, 'transakcja czeka', 'transakcje czekają', 'transakcji czeka') + ' na szczegóły z DYSZY — do tego czasu liczę je jako t.') + '</span></div>';
+    return h;
+  }
+  function kafle(w) {
+    var h = '<section class="ut-mr" aria-label="Fabryka i Restauracja">' + kafel('F', 'Fabryka', 'Wola · dowozy i odbiory', w) + kafel('R', 'Restauracja', 'wynos, odbiory i stoliki', w) + '</section>';
+    h += '<section class="ut-plat" aria-label="Płatności">' + METODY.map(function (m) {
+      var x = w.plat[m[0]];
+      return '<div class="ut-p"><span class="etykieta">' + m[1] + '</span><b>' + zl(x.z) + '</b><span>' + proc(x.z, w.razem) + ' · ' + x.n + ' szt.</span></div>';
+    }).join('') + '</section>';
+    if (w.plat.voucher.n) h += '<p class="ut-voucher">' + T('Vouchery: ' + w.plat.voucher.n + ' · ' + zl(w.plat.voucher.z) + ' zł — poza utargiem (jak w Wyniku).') + '</p>';
+    return h;
+  }
   function gora() {
     if (!S.dzien) return '';
-    var dzis = S.dzien === S.dzis, h = '';
-    h += '<nav class="ut-dzien" aria-label="Dzień">' +
-      '<button class="ut-strz" data-a="dzien" data-v="-1" aria-label="Poprzedni dzień"' + (S.od && S.dzien <= S.od ? ' disabled' : '') + '>' + ik('lewo') + '</button>' +
-      '<button class="ut-data" data-a="kalendarz" aria-haspopup="dialog" aria-label="Wybierz dzień — ' + esc(slownie(S.dzien)) + '">' + ik('kal') + '<span class="ut-dl">' + esc(slownie(S.dzien)) + '</span><span class="ut-kr">' + esc(krotko(S.dzien)) + '</span></button>' +
-      '<button class="ut-strz" data-a="dzien" data-v="1" aria-label="Następny dzień"' + (dzis ? ' disabled' : '') + '>' + ik('prawo') + '</button></nav>';
+    if (S.widok === 'miesiac') return goraM();
+    var dzis = S.dzien === S.dzis, h = nav();
     if (S.blad) return h + '<div class="ut-alarm info uw" role="alert">' + ik('uwaga') + '<span>' + T(S.blad) + '</span></div>' +
       '<div style="text-align:center;margin-top:12px"><button class="drugi" data-a="ponow">' + ik('odswiez') + ' Spróbuj jeszcze raz</button></div>';
     if (S.laduje || !S.wynik) {
@@ -1841,29 +1993,81 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       '<span class="kr"></span><span class="ut-stan-l">' + w.n + ' ' + odm(w.n, 'transakcja', 'transakcje', 'transakcji') +
       (w.n ? ' · średnio ' + zl(w.razem / w.n) + ' zł' : '') + '</span>' +
       (d.zamkniety ? '<button class="ut-wroc" data-a="dzis">Dziś ' + ik('prawo', 'mala') + '</button>' : '') + '</div>';
-    if (st.ok === false && (S.zleRejestr || 0) >= 2) {
-      // bez technicznych szczegółów na ekranie (zostają w podpowiedzi), każdy powód raz
-      var pow = String(st.tekst || '').split(' · ').filter(function (x, i, a) { return x && a.indexOf(x) === i; }).join(' · ');
-      var kiedy = S.okRejestr || st.ostatnio || '';
-      h += '<div class="ut-alarm info uw" role="status"' + (pow ? ' title="' + esc(pow) + '"' : '') + '>' + ik('uwaga') + '<span>' + T(pow
-        ? 'DYSZA chwilowo nie odpowiada — ZDZISŁAW ponawia co minutę.' + (kiedy ? ' Ostatnie dane: ' + kiedy + '.' : '') + ' Do tego czasu liczby mogą być niepełne.'
-        : 'Rejestr nie dostał nowych danych z DYSZY' + (kiedy ? ' od ' + kiedy : '') + ' — liczby mogą być niepełne.') + '</span></div>';
-    }
-    else if (st.szczegoly && st.szczegoly.ok === false && !d.zamkniety) h += '<div class="ut-alarm info uw" role="status">' + ik('uwaga') + '<span>' + T('Szczegóły z DYSZY nie dochodzą' + (st.szczegoly.ostatnio ? ' od ' + st.szczegoly.ostatnio : '') + ' — kwoty są pełne, opisy i podział na i / t mogą być niepełne.') + '</span></div>';
-    if (st.bez_szczegolow > 0) h += '<div class="ut-alarm info" role="status">' + ik('uwaga') + '<span>' + T(st.bez_szczegolow + ' ' + odm(st.bez_szczegolow, 'transakcja czeka', 'transakcje czekają', 'transakcji czeka') + ' na szczegóły z DYSZY — do tego czasu liczę je jako t.') + '</span></div>';
+    h += uwagi(st, d.zamkniety);
     h += '</section>';
     if (!w.n && !w.poza) {
       var pusty = dzis ? 'Dziś jeszcze nic nie wpadło do Rejestru — pierwsze zamówienia przychodzą koło jedenastej. Odświeżam co minutę.'
         : 'Tego dnia w Rejestrze nie ma transakcji.';
       return h + '<div class="zdz-start">' + zdz('oczko', 'unosi') + '<div class="dymek ogon-lewo"><div class="d-tyt">ZDZISŁAW<span class="kursor"></span></div>' + T(pusty) + '</div></div>';
     }
-    h += '<section class="ut-mr" aria-label="Fabryka i Restauracja">' + kafel('F', 'Fabryka', 'Wola · dowozy i odbiory', w) + kafel('R', 'Restauracja', 'wynos, odbiory i stoliki', w) + '</section>';
-    h += '<section class="ut-plat" aria-label="Płatności">' + METODY.map(function (m) {
-      var x = w.plat[m[0]];
-      return '<div class="ut-p"><span class="etykieta">' + m[1] + '</span><b>' + zl(x.z) + '</b><span>' + proc(x.z, w.razem) + ' · ' + x.n + ' szt.</span></div>';
-    }).join('') + '</section>';
-    if (w.plat.voucher.n) h += '<p class="ut-voucher">' + T('Vouchery: ' + w.plat.voucher.n + ' · ' + zl(w.plat.voucher.z) + ' zł — poza utargiem (jak w Wyniku).') + '</p>';
+    h += kafle(w);
     h += rytm(w, d);
+    return h;
+  }
+
+  /* widok miesiąca: ten sam układ co dzień — suma, F | R z i / t / s, płatności, rytm dzień po dniu, lista dni */
+  function goraM() {
+    var h = nav();
+    if (S.bladM) return h + '<div class="ut-alarm info uw" role="alert">' + ik('uwaga') + '<span>' + T(S.bladM) + '</span></div>' +
+      '<div style="text-align:center;margin-top:12px"><button class="drugi" data-a="ponowM">' + ik('odswiez') + ' Spróbuj jeszcze raz</button></div>';
+    var d = S.daneM, w = S.wynikM;
+    if (S.ladujeM || !d || !w) {
+      return h + '<div class="zdz-start">' + zdz('czyta', 'unosi') + '<div class="dymek ogon-lewo"><div class="d-tyt">ZDZISŁAW<span class="kursor"></span></div>' +
+        T('Liczę ' + miesiacNazwa(S.mies).toLowerCase() + ' dzień po dniu…') + '</div></div>';
+    }
+    var st = d.stan || {}, zam = !!d.zamkniety, kon = koniecMies(S.mies), doD = S.dzis < kon ? S.dzis : kon;
+    var znak = '∑ (' + ddmm(zam ? kon : doD) + (zam ? '' : ', ' + (st.ostatnio || '—')) + ') =';
+    h += '<section class="ut-suma" aria-label="Utarg miesiąca"><div class="ut-suma-l bebas"><span class="ut-znak">' + esc(znak) + '</span>' +
+      '<span class="ut-kw" id="suma">' + zl(w.razem) + '<small>zł</small></span></div>' +
+      '<div class="ut-stan">' + (zam ? '<span class="ut-arch">Miesiąc zamknięty</span>' : '<span class="ut-zywo">Narastająco · na żywo</span>') +
+      '<span class="kr"></span><span class="ut-stan-l">' + w.n + ' ' + odm(w.n, 'transakcja', 'transakcje', 'transakcji') +
+      (w.dni ? ' · ' + w.dni + ' ' + odm(w.dni, 'dzień', 'dni', 'dni') + ' · średnio dziennie ' + zl(w.razem / w.dni) + ' zł' : '') + '</span>' +
+      (S.mies !== S.dzis.slice(0, 7) ? '<button class="ut-wroc" data-a="mies-biez">Bieżący ' + ik('prawo', 'mala') + '</button>' : '') + '</div>';
+    if (!zam) h += uwagi(st, false);
+    h += '</section>';
+    if (!w.n && !w.plat.voucher.n) {
+      var pusty = zam ? 'W tym miesiącu w Rejestrze nie ma transakcji.' : 'W tym miesiącu jeszcze nic nie wpadło do Rejestru. Odświeżam co minutę.';
+      return h + '<div class="zdz-start">' + zdz('oczko', 'unosi') + '<div class="dymek ogon-lewo"><div class="d-tyt">ZDZISŁAW<span class="kursor"></span></div>' + T(pusty) + '</div></div>';
+    }
+    h += kafle(w);
+    h += rytmM(d);
+    return h;
+  }
+  function rytmM(d) {
+    var m = S.mies, mapa = {}, max = 1, sl = '', et = '', n = 0;
+    (d.dni || []).forEach(function (x) { mapa[x.dzien] = x; max = Math.max(max, (x.f || 0) + (x.r || 0)); });
+    for (var k = m + '-01'; k.slice(0, 7) === m; k = dodajDni(k, 1)) {
+      n++;
+      var x = mapa[k], przysz = k > S.dzis, teraz = k === S.dzis && !d.zamkniety, nrd = +k.slice(8);
+      var opis = slownie(k) + (x ? ' · Fabryka ' + zl(x.f) + ' zł · Restauracja ' + zl(x.r) + ' zł' : przysz ? ' — jeszcze przed nami' : ' — brak danych');
+      sl += '<button class="ut-s' + (przysz ? ' przysz' : '') + (teraz ? ' teraz' : '') + '" data-a="mies-dzien" data-v="' + k + '"' + (x ? '' : ' disabled') +
+        ' title="' + esc(opis) + '" aria-label="' + esc(opis) + '">' +
+        '<i class="r" style="height:' + (x ? x.r / max * 100 : 0).toFixed(1) + '%"></i><i class="f" style="height:' + (x ? x.f / max * 100 : 0).toFixed(1) + '%"></i></button>';
+      et += '<span' + (nrd === 1 || nrd % 5 === 0 ? '' : ' class="cicho"') + '>' + nrd + '</span>';
+    }
+    var kol = 'grid-template-columns:repeat(' + n + ',minmax(0,1fr))';
+    return '<section class="ut-rytm" aria-label="Rytm miesiąca"><div class="ut-rytm-g"><span class="etykieta">Rytm miesiąca · utarg dzień po dniu</span>' +
+      '<div class="ut-leg"><span style="--kol:var(--F)"><i></i>Fabryka</span><span style="--kol:var(--R)"><i></i>Restauracja</span></div></div>' +
+      '<div class="ut-slupki m" style="' + kol + '">' + sl + '</div><div class="ut-godz m" style="' + kol + '" aria-hidden="true">' + et + '</div></section>';
+  }
+  function listaM() {
+    var d = S.daneM, w = S.wynikM;
+    if (!d || !w || !(d.dni || []).length || (!w.n && !w.plat.voucher.n)) return '';
+    var dni = d.dni.slice();
+    if (!d.zamkniety) dni.reverse();                  // miesiąc w toku: najnowszy dzień na górze; zamknięty — od pierwszego
+    var h = '<section class="ut-tr" aria-label="Dni miesiąca"><div class="ut-tr-g"><h2>Dni</h2><span class="pod">' +
+      esc(w.dni + ' ' + odm(w.dni, 'dzień', 'dni', 'dni') + ' z utargiem · stuknij dzień — wszystkie transakcje') + '</span></div>' +
+      '<div class="ut-ster-m"><button class="drugi kop" data-a="kopiujM">' + ik('kopiuj') + ' Kopiuj do arkusza</button></div>' +
+      '<div class="dni-w"><table class="dni"><thead><tr><th>Dzień</th><th>Fabryka</th><th>Restauracja</th><th>Razem</th><th class="n2">Transakcje</th><th class="n1">Średnio</th></tr></thead><tbody>';
+    dni.forEach(function (x) {
+      var s = (x.f || 0) + (x.r || 0), teraz = x.dzien === S.dzis && !d.zamkniety;
+      h += '<tr data-a="mies-dzien" data-v="' + x.dzien + '" tabindex="0" class="' + (s ? '' : 'pusty') + (teraz ? ' dzis' : '') + '">' +
+        '<td class="d">' + ddmm(x.dzien) + '<small>' + (teraz ? 'dziś · na żywo' : DNI[dataD(x.dzien).getUTCDay()]) + '</small></td>' +
+        '<td>' + (s ? zl(x.f) : '—') + '</td><td>' + (s ? zl(x.r) : '—') + '</td><td class="s"><b>' + (s ? zl(s) : '—') + '</b></td>' +
+        '<td class="n2">' + (x.n || '—') + '</td><td class="n1">' + (x.n ? zl(s / x.n) : '—') + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td class="d">Razem</td><td>' + zl(w.F.z) + '</td><td>' + zl(w.R.z) + '</td><td class="s"><b>' + zl(w.razem) + '</b></td>' +
+      '<td class="n2">' + w.n + '</td><td class="n1">' + (w.n ? zl(w.razem / w.n) : '—') + '</td></tr></tfoot></table></div></section>';
     return h;
   }
   var KANALY = [['i', 'internet'], ['t', 'telefon'], ['s', 'stoliki']];
@@ -1989,7 +2193,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     var el = document.getElementById('warstwa');
     if (!S.okno || S.etap !== 'app') { if (el) el.remove(); return; }
     var ts = document.getElementById('toast'); if (ts && !el) ts.className = '';   // okno zasłania dymek ZDZISŁAWA — chowam go
-    var html = S.okno.typ === 'tr' ? oknoTr(S.okno.id) : S.okno.typ === 'kal' ? oknoKal() : S.okno.typ === 'zasady' ? oknoZasady() : '';
+    var html = S.okno.typ === 'tr' ? oknoTr(S.okno.id) : S.okno.typ === 'kal' ? oknoKal() : S.okno.typ === 'mies' ? oknoMies() : S.okno.typ === 'zasady' ? oknoZasady() : '';
     if (!html) { S.okno = null; if (el) el.remove(); return; }
     if (!el) { el = document.createElement('div'); el.id = 'warstwa'; el.className = 'warstwa'; el.setAttribute('data-a', 'zamknij-tlo'); document.body.appendChild(el); }
     el.innerHTML = html;
@@ -2076,6 +2280,27 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     catch (e) { if (e && e.sesja) { pokazLogowanie('Sesja wygasła — zaloguj się ponownie.'); return; } toast(tekstBledu(e)); S.okno = null; }
     if (S.okno && S.okno.typ === 'kal' && S.okno.miesiac === m) renderOkno();
   }
+  function oknoMies() {
+    var r = S.okno.rok, odM = S.od ? S.od.slice(0, 7) : S.mies, doM = S.dzis.slice(0, 7);
+    var h = '<div class="okno ut-kal-o" role="dialog" aria-modal="true" aria-label="Wybierz miesiąc"><div class="okno-g"><h2>Wybierz miesiąc</h2>' +
+      '<button class="zamknij" data-a="zamknij" aria-label="Zamknij">' + ik('x') + '</button></div><div class="okno-t">' +
+      '<div class="ut-kal-n"><button class="ut-strz" data-a="mies-rok" data-v="-1" aria-label="Poprzedni rok"' + (r <= +odM.slice(0, 4) ? ' disabled' : '') + '>' + ik('lewo') + '</button>' +
+      '<b>' + r + '</b><button class="ut-strz" data-a="mies-rok" data-v="1" aria-label="Następny rok"' + (r >= +doM.slice(0, 4) ? ' disabled' : '') + '>' + ik('prawo') + '</button></div><div class="ut-mies">';
+    for (var i = 1; i <= 12; i++) {
+      var m = r + '-' + String(i).padStart(2, '0'), jest = m >= odM && m <= doM, dane = S.kal[m];
+      var s = dane ? (dane.dni || []).reduce(function (a, x) { return a + (x.f || 0) + (x.r || 0); }, 0) : null;
+      h += '<button class="ut-dz ut-mz' + (jest ? '' : ' brak') + (m === doM ? ' dzis' : '') + (m === S.mies ? ' wyb' : '') + '" data-a="mies-wybierz" data-v="' + m + '"' + (jest ? '' : ' disabled') +
+        ' aria-label="' + esc(miesiacNazwa(m) + (s != null ? ': ' + zl(s) + ' zł' : '')) + '"><span class="d">' + MIES_M[i - 1].slice(0, 3) + '</span><span class="s">' + (s != null ? tysMln(s) : '') + '</span></button>';
+    }
+    return h + '</div></div></div>';
+  }
+  async function otworzMies(r) {
+    S.okno = { typ: 'mies', rok: r }; renderOkno();
+    var odM = S.od ? S.od.slice(0, 7) : S.mies, doM = S.dzis.slice(0, 7), brak = [];
+    for (var i = 1; i <= 12; i++) { var m = r + '-' + String(i).padStart(2, '0'); if (m >= odM && m <= doM && !S.kal[m]) brak.push(m); }
+    await Promise.all(brak.map(function (m) { return baza.rpc('utargometr_miesiac', { p_miesiac: m }).then(function (d) { S.kal[m] = d; }, function () { return null; }); }));
+    if (S.okno && S.okno.typ === 'mies' && S.okno.rok === r) renderOkno();
+  }
   function oknoZasady() {
     var l = [
       ['Źródło', 'Rejestr Restauracji i Rejestr Fabryki w bazie Dysza.App — ZDZISŁAW dopisuje do nich zamówienia z DYSZY co minutę, a załoga poprawia płatności (BLIK) i przenosi zestawy („R”). Te same liczby co w w.dysza.app.'],
@@ -2085,6 +2310,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       ['F, R, i, t, s', 'F — Fabryka (Wola), R — Restauracja (wynos, odbiory i stoliki); i — internet (sklep psushi.pl), t — telefon, s — stoliki (tablet kelnera). Udział każdej linii liczony od sumy dnia.'],
       ['Który dzień', 'Od północy do 13:00 na wejściu pokazuję wczoraj ze znacznikiem 23:59, od 13:00 — dziś. Każdy inny dzień: strzałki albo kalendarz.'],
       ['Na żywo', 'Dziś pobieram dzień od nowa co minutę; godzina w „∑ (gg:mm)” to stan danych. Nowe transakcje na chwilę podświetlam na zielono.'],
+      ['Miesiąc', 'Przełącznik „Miesiąc” obok wyboru dnia: suma dni miesiąca według tych samych zasad. Miesiąc w toku — narastająco do ostatnich danych, odświeżany co minutę („∑ (dd.mm, gg:mm)”); po jego ostatnim dniu (od 4:00 następnego) — „Miesiąc zamknięty”.'],
       ['Kwoty i czas', 'Kwoty brutto, w złotych; czas warszawski.']
     ];
     var h = '<div class="okno" role="dialog" aria-modal="true" aria-label="Jak liczę utarg"><div class="okno-g"><h2>Jak liczę utarg</h2>' +
@@ -2106,7 +2332,19 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
         t.stan === 'ok' && u ? kw(u) : 'poza utargiem', t.przyjal || '', t.zmiana ? t.zmiana.czas + ' ' + NAZWY_PLAT[t.zmiana.z] + ' → ' + NAZWY_PLAT[t.zmiana.na] + ' · ' + t.zmiana.kto : '', t.uwagi || '']
         .map(function (v) { return String(v == null ? '' : v).replace(/[\t\n]/g, ' '); }).join('\t'));
     });
-    var tekst = w.join('\n'), ile = l.length + ' ' + odm(l.length, 'wiersz', 'wiersze', 'wierszy');
+    schowek(w.join('\n'), l.length + ' ' + odm(l.length, 'wiersz', 'wiersze', 'wierszy'));
+  }
+  function kopiujM() {
+    var d = S.daneM; if (!d) return;
+    var kw = function (g) { return ((g || 0) / 100).toFixed(2).replace('.', ','); }, z = function (a) { return kw((a || [0])[0]); };
+    var w = [['Dzień', 'Fabryka', 'Restauracja', 'Razem', 'Transakcje', 'F i', 'F t', 'R i', 'R t', 'R s', 'Karta', 'BLIK', 'Gotówka', 'Online', 'Voucher'].join('\t')];
+    (d.dni || []).forEach(function (x) {
+      var k = x.k || {}, p = x.p || {};
+      w.push([x.dzien, kw(x.f), kw(x.r), kw((x.f || 0) + (x.r || 0)), x.n || 0, z(k.Fi), z(k.Ft), z(k.Ri), z(k.Rt), z(k.Rs), z(p.karta), z(p.blik), z(p.gotowka), z(p.online), z(p.voucher)].join('\t'));
+    });
+    schowek(w.join('\n'), d.dni.length + ' ' + odm(d.dni.length, 'dzień', 'dni', 'dni'));
+  }
+  function schowek(tekst, ile) {
     var zapas = function () {
       try {
         var ta = document.createElement('textarea'); ta.value = tekst; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
@@ -2168,6 +2406,15 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       case 'sort': S.sort = S.sort === 'nowe' ? 'stare' : 'nowe'; renderTab(); break;
       case 'wyczysc': S.filtr = { m: '', k: '', p: '', q: '', h: null }; var lst = document.getElementById('lista'); if (lst) lst.innerHTML = lista(); renderGora(); break;
       case 'kopiuj': kopiuj(); break;
+      case 'kopiujM': kopiujM(); break;
+      case 'tryb': przelacz(v); break;
+      case 'mies': zmienMies(dodajMies(S.mies, +v)); break;
+      case 'mies-biez': zmienMies(S.dzis.slice(0, 7)); break;
+      case 'wybor-mies': otworzMies(+S.mies.slice(0, 4)); break;
+      case 'mies-rok': otworzMies(S.okno.rok + (+v)); break;
+      case 'mies-wybierz': S.okno = null; renderOkno(); zmienMies(v); break;
+      case 'mies-dzien': doDnia(v); break;
+      case 'ponowM': S.bladM = ''; wczytajM(false); break;
       case 'tr': S.okno = { typ: 'tr', id: v }; renderOkno(); break;
     }
   });
@@ -2180,7 +2427,13 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { if (S.okno) zamknijOkno(); else if (S.menu) { S.menu = false; renderMenu(); } return; }
     if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('tr[data-a="tr"]')) { e.preventDefault(); S.okno = { typ: 'tr', id: e.target.getAttribute('data-v') }; renderOkno(); return; }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('tr[data-a="mies-dzien"]')) { e.preventDefault(); doDnia(e.target.getAttribute('data-v')); return; }
     var pole = /^(INPUT|SELECT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '');
+    if (S.etap === 'app' && !S.okno && !pole && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && S.widok === 'miesiac' && S.mies) {
+      var mm = dodajMies(S.mies, e.key === 'ArrowLeft' ? -1 : 1);
+      if ((!S.od || mm >= S.od.slice(0, 7)) && mm <= S.dzis.slice(0, 7)) zmienMies(mm);
+      return;
+    }
     if (S.etap === 'app' && !S.okno && !pole && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && S.dzien) {
       var k = dodajDni(S.dzien, e.key === 'ArrowLeft' ? -1 : 1);
       if ((!S.od || k >= S.od) && k <= S.dzis) zmienDzien(k, false);
@@ -2192,6 +2445,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     if (S.etap !== 'app' || !S.dzien || document.visibilityState === 'hidden') return;
     var t = UB.warszawa();
     if (S.dzis && t.dzien > S.dzis) { S.dzis = t.dzien; S.kal = {}; }
+    // miesiąc w toku — co minutę od nowa; zamknięty stoi
+    if (S.widok === 'miesiac') { if (S.daneM && !S.daneM.zamkniety && Date.now() - S.wczytanoM >= CO_ILE - 1500) wczytajM(true); return; }
     var domyslny = t.min < 13 * 60 ? dodajDni(t.dzien, -1) : t.dzien;
     if (S.auto && domyslny !== S.dzien) { zmienDzien(domyslny, true); return; }
     // dziś co minutę; dzień, który zamknął się o północy, od razu (dostaje znacznik 23:59)
