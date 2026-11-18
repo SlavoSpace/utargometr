@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Utargometr">
 <meta name="robots" content="noindex, nofollow">
-<meta name="utargometr-wersja" content="1.1 · 2026-11-18 01:05 · 1c557fa">
+<meta name="utargometr-wersja" content="1.2 · 2026-11-18 01:34 · 4964195">
 <title>Utargometr</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -1246,7 +1246,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       }
       var ktoW = w.imie && w.imie !== 'DYSZA' ? ' · ' + w.imie : '';
       if (w.zf && w.pf_kiedy) dodaj(msZ(w.pf_kiedy), '„R” w Rejestrze Fabryki — zestaw wydany w Restauracji' + (w.pf_kto ? ' · ' + w.pf_kto : ''), 2);
-      dodaj(msZ(w.utworzono), (w.zf ? 'Wpis „F” nr ' + w.nr + ' w Rejestrze Restauracji' : 'W Rejestrze ' + (w.m === 'F' ? 'Fabryki' : 'Restauracji') + ' — wpis nr ' + w.nr) + ktoW, 1);
+      if (w.zr === 'dysza') dodaj(msZ(w.utworzono), (stolik ? 'Rachunek zamknięty' : 'Przedział ' + (w.m === 'F' && w.kanal === 'dowoz' ? 'dostawy' : 'odbioru')) + ' · dzień sprzed Rejestru — dane prosto z DYSZY', 1);
+      else dodaj(msZ(w.utworzono), (w.zf ? 'Wpis „F” nr ' + w.nr + ' w Rejestrze Restauracji' : 'W Rejestrze ' + (w.m === 'F' ? 'Fabryki' : 'Restauracji') + ' — wpis nr ' + w.nr) + ktoW, 1);
       var msZm = msZ(w.zmieniono), msU = msZ(w.utworzono);
       if (zmiana) dodaj(msZm, 'Płatność: ' + NAZWY[zmiana.z] + ' → ' + NAZWY[zmiana.na] + ' · ' + zmiana.kto, 2);
       else if (!w.usunieto && w.zmienil_imie && w.zmienil_imie !== 'DYSZA' && msZm - msU > 60000) dodaj(msZm, 'Poprawione w Rejestrze · ' + w.zmienil_imie, 2);
@@ -1263,7 +1264,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
         z_fabryki: !!w.zf, czas: gg(msU) || '00:00', pozycje: poz, rabat: rabat, dostawa: dost, opakowania: opak, serwis: serwis,
         korekta: sz && sumaD && kwota !== sumaD ? kwota - sumaD : 0, kwota: kwota, plat: plat,
         przyjal: (sz && sz.kto) || (w.imie && w.imie !== 'DYSZA' ? w.imie : null), stan: w.usunieto ? 'usuniete' : 'ok',
-        dysza_anul: !w.usunieto && !!(w.dysza && w.dysza.stan === 'anulowane'), uwagi: w.uwagi || null, zmiana: zmiana, przebieg: przebieg
+        dysza_anul: !w.usunieto && !!(w.dysza && w.dysza.stan === 'anulowane'), uwagi: w.uwagi || null, zmiana: zmiana, przebieg: przebieg,
+        zDyszy: w.zr === 'dysza'
       };
     });
   }
@@ -1651,6 +1653,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     ksiezyc: '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>',
     slonce: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     odswiez: '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.01"/>',
     strz: '<path d="M7 10l5 5 5-5"/>'
   };
   var ik = function (n, kl) { return '<svg class="ikona ' + (kl || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (IK[n] || '') + '</svg>'; };
@@ -1704,6 +1707,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     return w;
   }
   function ddmm(k) { return k.slice(8, 10) + '.' + k.slice(5, 7); }
+  function zakresDni(z) { return z[0] === z[1] ? (+z[0].slice(8)) + '.' + z[0].slice(5, 7) : (+z[0].slice(8)) + '.' + z[0].slice(5, 7) + '–' + (+z[1].slice(8)) + '.' + z[1].slice(5, 7); }
   function koniecMies(m) { return dodajDni(dodajMies(m, 1) + '-01', -1); }
 
   /* ───────────── motyw ───────────── */
@@ -1966,6 +1970,16 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     if (st.bez_szczegolow > 0) h += '<div class="ut-alarm info" role="status">' + ik('uwaga') + '<span>' + T(st.bez_szczegolow + ' ' + odm(st.bez_szczegolow, 'transakcja czeka', 'transakcje czekają', 'transakcji czeka') + ' na szczegóły z DYSZY — do tego czasu liczę je jako t.') + '</span></div>';
     return h;
   }
+  // dni sprzed Rejestru — liczby prosto z DYSZY (archiwum, migracja 006)
+  function uwagaArchiwum(a, czeka) {
+    a = a || {};
+    var h = '', tx = '';
+    if (a.F && a.R) tx = 'Dzień sprzed Rejestru — liczby prosto z DYSZY, bez poprawek załogi; BLIK tylko tam, gdzie zapisała go DYSZA.';
+    else if (a.F || a.R) tx = (a.F ? 'Fabryka' : 'Restauracja') + ' tego dnia prosto z DYSZY (sprzed Rejestru ' + (a.F ? 'Fabryki' : 'Restauracji') + ') — bez poprawek załogi; BLIK tylko tam, gdzie zapisała go DYSZA.';
+    if (tx) h += '<div class="ut-alarm info" role="note">' + ik('info') + '<span>' + T(tx) + '</span></div>';
+    if (czeka) h += '<div class="ut-alarm info" role="status">' + ik('odswiez') + '<span>' + T('Część tego dnia jeszcze pobieram prosto z DYSZY — za kilka minut będzie pełny.') + '</span></div>';
+    return h;
+  }
   function kafle(w) {
     var h = '<section class="ut-mr" aria-label="Fabryka i Restauracja">' + kafel('F', 'Fabryka', 'Wola · dowozy i odbiory', w) + kafel('R', 'Restauracja', 'wynos, odbiory i stoliki', w) + '</section>';
     h += '<section class="ut-plat" aria-label="Płatności">' + METODY.map(function (m) {
@@ -1994,9 +2008,11 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       (w.n ? ' · średnio ' + zl(w.razem / w.n) + ' zł' : '') + '</span>' +
       (d.zamkniety ? '<button class="ut-wroc" data-a="dzis">Dziś ' + ik('prawo', 'mala') + '</button>' : '') + '</div>';
     h += uwagi(st, d.zamkniety);
+    h += uwagaArchiwum(d.archiwum, d.czeka && (w.n || w.poza));
     h += '</section>';
     if (!w.n && !w.poza) {
-      var pusty = dzis ? 'Dziś jeszcze nic nie wpadło do Rejestru — pierwsze zamówienia przychodzą koło jedenastej. Odświeżam co minutę.'
+      var pusty = d.czeka ? 'Ten dzień jest sprzed Rejestru — pobieram go jeszcze prosto z DYSZY. Za kilka minut będzie gotowy.'
+        : dzis ? 'Dziś jeszcze nic nie wpadło do Rejestru — pierwsze zamówienia przychodzą koło jedenastej. Odświeżam co minutę.'
         : 'Tego dnia w Rejestrze nie ma transakcji.';
       return h + '<div class="zdz-start">' + zdz('oczko', 'unosi') + '<div class="dymek ogon-lewo"><div class="d-tyt">ZDZISŁAW<span class="kursor"></span></div>' + T(pusty) + '</div></div>';
     }
@@ -2024,6 +2040,11 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       (w.dni ? ' · ' + w.dni + ' ' + odm(w.dni, 'dzień', 'dni', 'dni') + ' · średnio dziennie ' + zl(w.razem / w.dni) + ' zł' : '') + '</span>' +
       (S.mies !== S.dzis.slice(0, 7) ? '<button class="ut-wroc" data-a="mies-biez">Bieżący ' + ik('prawo', 'mala') + '</button>' : '') + '</div>';
     if (!zam) h += uwagi(st, false);
+    var ar = d.archiwum || {}, czesci = [];
+    if (ar.F) czesci.push('Fabryka ' + zakresDni(ar.F));
+    if (ar.R) czesci.push('Restauracja ' + zakresDni(ar.R));
+    if (czesci.length) h += '<div class="ut-alarm info" role="note">' + ik('info') + '<span>' + T('Dni sprzed Rejestru prosto z DYSZY: ' + czesci.join(', ') + ' — bez poprawek załogi; BLIK tylko tam, gdzie zapisała go DYSZA.') + '</span></div>';
+    if (d.czeka > 0) h += '<div class="ut-alarm info" role="status">' + ik('odswiez') + '<span>' + T('Część dni sprzed Rejestru jeszcze pobieram prosto z DYSZY — suma miesiąca urośnie.') + '</span></div>';
     h += '</section>';
     if (!w.n && !w.plat.voucher.n) {
       var pusty = zam ? 'W tym miesiącu w Rejestrze nie ma transakcji.' : 'W tym miesiącu jeszcze nic nie wpadło do Rejestru. Odświeżam co minutę.';
@@ -2062,7 +2083,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
     dni.forEach(function (x) {
       var s = (x.f || 0) + (x.r || 0), teraz = x.dzien === S.dzis && !d.zamkniety;
       h += '<tr data-a="mies-dzien" data-v="' + x.dzien + '" tabindex="0" class="' + (s ? '' : 'pusty') + (teraz ? ' dzis' : '') + '">' +
-        '<td class="d">' + ddmm(x.dzien) + '<small>' + (teraz ? 'dziś · na żywo' : DNI[dataD(x.dzien).getUTCDay()]) + '</small></td>' +
+        '<td class="d">' + ddmm(x.dzien) + '<small>' + (teraz ? 'dziś · na żywo' : DNI[dataD(x.dzien).getUTCDay()] + (x.a ? ' · z DYSZY' : '')) + '</small></td>' +
         '<td>' + (s ? zl(x.f) : '—') + '</td><td>' + (s ? zl(x.r) : '—') + '</td><td class="s"><b>' + (s ? zl(s) : '—') + '</b></td>' +
         '<td class="n2">' + (x.n || '—') + '</td><td class="n1">' + (x.n ? zl(s / x.n) : '—') + '</td></tr>';
     });
@@ -2240,7 +2261,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       '<div class="et">Miejsce</div><div>' + esc(miejsce) + '</div>' +
       '<div class="et">Płatność</div><div>' + esc(platSz || '—') + (t.zmiana ? '<br><span class="podp">' + esc('zmiana ' + t.zmiana.czas + ': ' + NAZWY_PLAT[t.zmiana.z] + ' → ' + NAZWY_PLAT[t.zmiana.na] + ' · ' + t.zmiana.kto) + '</span>' : '') + '</div>' +
       '<div class="et">Przyjął</div><div>' + esc(t.przyjal || '—') + '</div>' +
-      '<div class="et">Rejestr</div><div>' + esc((t.m === 'F' ? 'Fabryka' : 'Restauracja') + ' · nr ' + t.nr + ' · kod ' + t.kod) + '</div></div></div>';
+      (t.zDyszy ? '<div class="et">Źródło</div><div>' + esc('DYSZA · dzień sprzed Rejestru ' + (t.m === 'F' ? 'Fabryki' : 'Restauracji') + ' · kod ' + t.kod) + '</div>'
+        : '<div class="et">Rejestr</div><div>' + esc((t.m === 'F' ? 'Fabryka' : 'Restauracja') + ' · nr ' + t.nr + ' · kod ' + t.kod) + '</div>') + '</div></div>';
     // przebieg
     if (t.przebieg && t.przebieg.length) {
       h += '<div class="ut-sek"><h3>Przebieg</h3><div class="ut-przebieg">' + t.przebieg.map(function (x) {
@@ -2248,7 +2270,8 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       }).join('') + '</div></div>';
     }
     if (t.uwagi) h += '<div class="ut-sek"><h3>Uwagi załogi</h3><div class="ut-uwaga">' + T(t.uwagi) + '</div></div>';
-    h += '<p class="ut-zrodlo">' + T('Źródło: DYSZA (zamówienie, kanał, przebieg) i Rejestr ' + (t.m === 'F' ? 'Fabryki' : 'Restauracji') + ' (płatność, zmiany, uwagi). Kwoty brutto.') + '</p>';
+    h += '<p class="ut-zrodlo">' + T(t.zDyszy ? 'Źródło: DYSZA — dzień sprzed Rejestru (zamówienie, kanał, przebieg i płatność, bez poprawek załogi; BLIK tylko tam, gdzie zapisała go DYSZA). Kwoty brutto.'
+      : 'Źródło: DYSZA (zamówienie, kanał, przebieg) i Rejestr ' + (t.m === 'F' ? 'Fabryki' : 'Restauracji') + ' (płatność, zmiany, uwagi). Kwoty brutto.') + '</p>';
     return h + '</div></div>';
   }
   function oknoKal() {
@@ -2310,6 +2333,7 @@ table.tab{border-collapse:separate;border-spacing:0;width:100%;font-size:14px}
       ['F, R, i, t, s', 'F — Fabryka (Wola), R — Restauracja (wynos, odbiory i stoliki); i — internet (sklep psushi.pl), t — telefon, s — stoliki (tablet kelnera). Udział każdej linii liczony od sumy dnia.'],
       ['Który dzień', 'Od północy do 13:00 na wejściu pokazuję wczoraj ze znacznikiem 23:59, od 13:00 — dziś. Każdy inny dzień: strzałki albo kalendarz.'],
       ['Na żywo', 'Dziś pobieram dzień od nowa co minutę; godzina w „∑ (gg:mm)” to stan danych. Nowe transakcje na chwilę podświetlam na zielono.'],
+      ['Dni sprzed Rejestru', 'Październik i pierwsze dni listopada (Restauracja do 3.11, Fabryka do 5.11) — prosto z DYSZY, tak jak liczy je automat Rejestru: dowozy i odbiory potwierdzone albo zapłacone, stoliki zamknięte; kwoty z płatności zapisanych w DYSZY (BLIK tylko tam, gdzie go zapisała), bez poprawek załogi. Oznaczone „z DYSZY”.'],
       ['Miesiąc', 'Przełącznik „Miesiąc” obok wyboru dnia: suma dni miesiąca według tych samych zasad. Miesiąc w toku — narastająco do ostatnich danych, odświeżany co minutę („∑ (dd.mm, gg:mm)”); po jego ostatnim dniu (od 4:00 następnego) — „Miesiąc zamknięty”.'],
       ['Kwoty i czas', 'Kwoty brutto, w złotych; czas warszawski.']
     ];
