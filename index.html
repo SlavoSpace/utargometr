@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Utargometr">
 <meta name="robots" content="noindex, nofollow">
-<meta name="utargometr-wersja" content="1.3 · 2026-11-18 08:26 · 2e47bd8">
+<meta name="utargometr-wersja" content="1.4 · 2026-11-18 09:09 · 2ae6015">
 <title>Utargometr</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -429,9 +429,11 @@ button.liczba:active{filter:brightness(.95)}
 
 /* utargometr.dysza.app — Utargometr (na wspólnym wyglądzie managera: styl-managera.css). Minimalizm i symetria:
    wybór dnia na środku, suma dnia „∑ (gg:mm) =”, dwa równe kafle F | R z tymi samymi wierszami (i, t, s, ∑),
-   cztery równe kafle płatności, rytm dnia, transakcje. Wszystkie pola i przyciski 44 px. */
-:root{--mUt:#4A7A12;--info:#2F74C0;--naInfo:#FFFFFF;--arch:#B8892A;--archTlo:rgba(184,137,42,.10);--archRamka:rgba(184,137,42,.5);--wys:44px}
-:root.ciemny{--mUt:#B9EE6A;--arch:#e8c06a;--archTlo:rgba(232,192,106,.12);--archRamka:rgba(232,192,106,.55)}
+   cztery równe kafle płatności, rytm dnia, transakcje. Wszystkie pola i przyciski 44 px.
+   Kolory (od 1.4, wybór 18.11 — wersja B „Niebo i słońce”): Fabryka błękit, Restauracja słoneczny pomarańcz, tytuł i ∑ w błękicie;
+   tylko w Utargometrze — tła i reszta jak w całej Dysza.App. */
+:root{--mUt:#0369A1;--F:#0284C7;--R:#EA580C;--info:#2F74C0;--naInfo:#FFFFFF;--arch:#B8892A;--archTlo:rgba(184,137,42,.10);--archRamka:rgba(184,137,42,.5);--wys:44px}
+:root.ciemny{--mUt:#7DD3FC;--F:#38BDF8;--R:#FB923C;--arch:#e8c06a;--archTlo:rgba(232,192,106,.12);--archRamka:rgba(232,192,106,.55)}
 
 /* Architekt — złoto ponad kolorami modułów (jak w managerze) */
 .arch{display:inline-flex;align-items:center;gap:5px;padding:2px 9px 2px 7px;border-radius:999px;border:1px solid var(--archRamka);background:var(--archTlo);color:var(--arch);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;vertical-align:middle}
